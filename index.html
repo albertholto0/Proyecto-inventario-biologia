@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="contenedor">
+        <aside class="menu-lateral">
+            <h1>Inventario</h1>
+            <nav>
+                <a href="">Home</a>
+                <a href="">Inventario</a>
+                <a href="">Gestión de Prestamos</a>
+                <a href="">Configuración y administración</a>
+            </nav>
+        </aside>
+        <main>
+            <header class="encabezado">
+                <h1>Bienvenido al gestor de inventario</h1>
+            </header>
+
+            <!--Las tarjetas muestran información relevante de manera resumida.-->
+            <section class="tarjetas">
+                <div class="prestamos-totales">
+                    <p class="numero-tarjeta">123</p>
+                    <p>Prestamos totales</p>
+                </div>
+                <div class="prestamos-pendientes">
+                    <p class="numero-tarjeta">341</p>
+                    <p>Prestamos pendientes</p>
+                </div>
+                <div class="prestamos-atrasados">
+                    <p class="numero-tarjeta">45</p>
+                    <p>Prestamos atrasados</p>
+                </div>
+            </section>
+
+            <section class="bloques">
+                <div class="bloque">
+                    <h2>Resumen de Inventario</h2>
+                    <p>Total de materiales: <strong>10458</strong></p>
+                    <p>Total de equipos: <strong>168</strong></p>
+                </div>
+                <div class="bloque">
+                    <h2>Informes del inventario</h2>
+                    <p class="alerta">Equipos con existencias bajas: 3</p>
+                    <p> Materiales con existencias bajas: 0</p>
+                    <p> Prestamos para devolver hoy: 5</p>
+                    <p></p> Prestamos para devolver en menos de una semana: 11</p>
+                    <p class="alerta">Equipos/Material sin devolver: 121</p>
+                </div>
+                <div class="bloque">
+                    <h2>Opciones rapidas</h2>
+                    <p>Revisar objetos en mal estado</p>
+                    <p>Mandar alerta de Devolución</p>
+                    <p>Revisar objetos sin devolver</p>
+                    <p>Materiales más utilizados/solicitados</p>
+                </div>
+            </section>
+
+            <!--Aquí busco mostrar los ultimos prestamos solicitados-->
+            <section class="prestamos-vista-rapida">
+                <div class="ultimo-prestamo">
+                    <h2>Últimos Préstamos</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Préstamo</th>
+                                <th>ID Alumno</th>
+                                <th>Fecha Préstamo</th>
+                                <th>Fecha Devolución Prevista</th>
+                                <th>Fecha Devolución Real</th>
+                                <th>ID Laboratorio</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>101</td>
+                                <td>2025-05-10 14:30</td>
+                                <td>2025-05-17 14:30</td>
+                                <td>2025-05-16 10:00</td>
+                                <td>3</td>
+                                <td>completado</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>102</td>
+                                <td>2025-05-09 09:00</td>
+                                <td>2025-05-16 09:00</td>
+                                <td>NULL</td>
+                                <td>2</td>
+                                <td>activo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
