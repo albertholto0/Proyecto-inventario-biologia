@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="icon" href="/assets/images/box.png">
+</head>
+<body>
+    <div class="contenedor">
+        <aside class="menu-lateral">
+            <h1>Inicio</h1>
+            <div id="nav-dinamico"></div>
+        </aside>
+        <main>
+            <header class="encabezado">
+                <h1>Inventario</h1>
+                <p>Materiales y Equipos</p>
+            </header>
+            <section>
+                <h2>Materiales</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Material</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Presentación</th>
+                            <th>Unidad</th>
+                            <th>Clave</th>
+                            <th>Cantidad</th>
+                            <th>ID Laboratorio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Reactivo A</td>
+                            <td>reactivo</td>
+                            <td>Botella</td>
+                            <td>500</td>
+                            <td>RA-001</td>
+                            <td>20</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section>
+                <h2>Equipos</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Equipo</th>
+                            <th>Nombre</th>
+                            <th>ID Grupo</th>
+                            <th>ID Categoría</th>
+                            <th>ID Subcategoría</th>
+                            <th>ID Tipo</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Serie</th>
+                            <th>Color</th>
+                            <th>Precio</th>
+                            <th>ID Estado Físico</th>
+                            <th>ID Laboratorio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Microscopio</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>NULL</td>
+                            <td>3</td>
+                            <td>Zeiss</td>
+                            <td>AX10</td>
+                            <td>12345</td>
+                            <td>Negro</td>
+                            <td>1500.00</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+<script>
+    fetch('assets/nav.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('nav-dinamico').innerHTML = data;
+        });
+</script>
+</html>
