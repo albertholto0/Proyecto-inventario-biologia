@@ -30,6 +30,11 @@ body {
     margin-bottom: 20px;
 }
 
+.menu-lateral nav a[href="/index.html"]{
+    font-weight: bold;
+    font-size: x-large;
+}
+
 .menu-lateral nav a {
     display: block;
     color: #fff;
@@ -103,14 +108,6 @@ body {
     gap: 20px;
     margin-top: 20px;
   }
-  
-  .ultimo-prestamo {
-    background: #fff;
-    padding: 20px;
-    border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  }
-  
 
 table {
     width: 100%;
