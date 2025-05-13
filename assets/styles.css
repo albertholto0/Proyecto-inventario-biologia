@@ -127,3 +127,10 @@ th, td {
 /* h1 que esté dentro de los encabezados*/
 .encabezado h1{margin-bottom:3px}
 .encabezado p{margin-top: 1px;}
+
+div .tabla {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
