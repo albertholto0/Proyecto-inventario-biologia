@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario</title>
-    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="/assets/images/box.png">
 </head>
 <body>
@@ -21,7 +21,7 @@
             <section>
                 <h2>Materiales</h2>
                 <div class="tabla">
-                    <table>
+                    <table id="tabla-materiales">
                         <thead>
                             <tr>
                                 <th>ID Material</th>
@@ -35,16 +35,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Reactivo A</td>
-                                <td>reactivo</td>
-                                <td>Botella</td>
-                                <td>500</td>
-                                <td>RA-001</td>
-                                <td>20</td>
-                                <td>1</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -52,7 +42,7 @@
             <section>
                 <h2>Equipos</h2>
                 <div class="tabla">
-                    <table>
+                    <table id="tabla-equipos">
                         <thead>
                             <tr>
                                 <th>ID Equipo</th>
@@ -71,21 +61,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Microscopio</td>
-                                <td>2</td>
-                                <td>1</td>
-                                <td>NULL</td>
-                                <td>3</td>
-                                <td>Zeiss</td>
-                                <td>AX10</td>
-                                <td>12345</td>
-                                <td>Negro</td>
-                                <td>1500.00</td>
-                                <td>1</td>
-                                <td>1</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -93,6 +68,7 @@
         </main>
     </div>
 </body>
+<script src="/assets/datos_dinamicos.js"></script>
 <script>
     fetch('assets/nav.html')
         .then(response => response.text())
