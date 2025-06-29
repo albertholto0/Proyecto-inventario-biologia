@@ -1,0 +1,3 @@
+com/unsij/servlets/AuthServlet.class
+com/unsij/servlets/LogoutServlet.class
+com/unsij/servlets/LoginRedirectServlet.class
