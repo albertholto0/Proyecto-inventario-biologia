@@ -1,4 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="laboratorioService" class="com.unsij.services.LaboratorioService" scope="page"/>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -15,66 +18,54 @@
 <body class="bg-light">
     <jsp:include page="/components/nav.jsp" />
 
-
     <main class="container">
         <div class="mb-4">
             <h2 class="fw-bold mb-3"><i class="bi bi-building-gear text-success me-2"></i>Módulo de Laboratorios</h2>
-            <p class="text-muted">Consulta la información de cada laboratorio, su inventario y responsables asignados.
-            </p>
+            <p class="text-muted">Consulta la información de cada laboratorio, su inventario y responsables asignados.</p>
         </div>
 
         <div class="row g-4">
-            <!-- Laboratorio 1 -->
-            <div class="col-md-6">
-                <div class="card shadow-sm h-100">
-                    <div class="card-header bg-success text-white d-flex align-items-center">
-                        <i class="bi bi-flask2-fill me-2"></i>
-                        <span>Laboratorio de Biología Molecular</span>
+            <c:set var="laboratorios" value="${laboratorioService.obtenerLaboratorios()}"/>
+            <c:choose>
+                <c:when test="${empty laboratorios}">
+                    <div class="col-12">
+                        <div class="alert alert-info">No hay laboratorios registrados</div>
                     </div>
-                    <div class="card-body">
-                        <h6 class="fw-semibold mb-2">Inventario Asociado</h6>
-                        <ul class="list-group list-group-flush mb-3">
-                            <li class="list-group-item">Microscopios ópticos (5)</li>
-                            <li class="list-group-item">Centrífuga (2)</li>
-                            <li class="list-group-item">Pipetas automáticas (10)</li>
-                        </ul>
-                        <h6 class="fw-semibold mb-2">Responsables Asignados</h6>
-                        <ul class="list-unstyled mb-0">
-                            <li><i class="bi bi-person-fill text-primary me-2"></i> Dra. Ana López</li>
-                            <li><i class="bi bi-person-fill text-primary me-2"></i> Mtro. Carlos Pérez</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Laboratorio 2 -->
-            <div class="col-md-6">
-                <div class="card shadow-sm h-100">
-                    <div class="card-header bg-success text-white d-flex align-items-center">
-                        <i class="bi bi-flask2 me-2"></i>
-                        <span>Laboratorio de Microbiología</span>
-                    </div>
-                    <div class="card-body">
-                        <h6 class="fw-semibold mb-2">Inventario Asociado</h6>
-                        <ul class="list-group list-group-flush mb-3">
-                            <li class="list-group-item">Estufas de cultivo (3)</li>
-                            <li class="list-group-item">Placas de Petri (100)</li>
-                            <li class="list-group-item">Autoclave (1)</li>
-                        </ul>
-                        <h6 class="fw-semibold mb-2">Responsables Asignados</h6>
-                        <ul class="list-unstyled mb-0">
-                            <li><i class="bi bi-person-fill text-primary me-2"></i> Dr. Luis Ramírez</li>
-                            <li><i class="bi bi-person-fill text-primary me-2"></i> Lic. Sofía Méndez</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Puedes agregar más laboratorios aquí siguiendo la misma estructura -->
+                </c:when>
+                <c:otherwise>
+                    <c:forEach items="${laboratorios}" var="laboratorio">
+                        <div class="col-md-6">
+                            <div class="card shadow-sm h-100">
+                                <div class="card-header bg-success text-white d-flex align-items-center">
+                                    <i class="bi bi-flask2-fill me-2"></i>
+                                    <span>${laboratorio.nombreLaboratorio}</span>
+                                </div>
+                                <div class="card-body">
+                                    <c:if test="${not empty laboratorio.descripcion}">
+                                        <p class="mb-3">${laboratorio.descripcion}</p>
+                                    </c:if>
+                                    
+                                    <h6 class="fw-semibold mb-2">Responsable</h6>
+                                    <ul class="list-unstyled mb-3">
+                                        <li><i class="bi bi-person-fill text-primary me-2"></i> ${laboratorio.nombreResponsable}</li>
+                                    </ul>
+                                    
+                                    <!--Informacion del inventario. Por el momento no esta implementado-->
+                                    <h6 class="fw-semibold mb-2">Inventario Asociado</h6>
+                                    <div class="alert alert-secondary mb-0">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        La información de inventario se mostrará aquí cuando esté implementada.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/components/nav.js"></script>
 </body>
-
 </html>
