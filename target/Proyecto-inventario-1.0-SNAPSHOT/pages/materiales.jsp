@@ -11,27 +11,12 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
 
     <body>
         <jsp:include page="/components/nav.jsp" />
         <div class="container my-4">
-
-            <c:if test="${not empty sessionScope.mensaje}">
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    ${sessionScope.mensaje}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <c:remove var="mensaje" scope="session"/>
-            </c:if>
-
-            <c:if test="${not empty sessionScope.error}">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    ${sessionScope.error}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <c:remove var="error" scope="session"/>
-            </c:if>
 
             <div class="mb-4">
                 <h2 class="fw-bold mb-3">
@@ -265,8 +250,38 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <script>
-            // Función para cargar datos en el modal de edición
+            // Mostrar alertas bonitas
+            document.addEventListener('DOMContentLoaded', function() {
+                <c:if test="${not empty sessionScope.mensaje}">
+                    Swal.fire({
+                        title: '¡Éxito!',
+                        text: '${sessionScope.mensaje}',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#3085d6',
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                    <c:remove var="mensaje" scope="session"/>
+                </c:if>
+                
+                <c:if test="${not empty sessionScope.error}">
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: '${sessionScope.error}',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#d33',
+                        timer: 4000,
+                        timerProgressBar: true
+                    });
+                    <c:remove var="error" scope="session"/>
+                </c:if>
+            });
+
             function cargarDatosEdicion(idMaterial, nombre, tipo, presentacion, unidad, clave, cantidad, idLaboratorio) {
                 document.getElementById('editIdMaterial').value = idMaterial;
                 document.getElementById('editNombre').value = nombre;
@@ -278,21 +293,18 @@
                 document.getElementById('editIdLaboratorio').value = idLaboratorio;
             }
 
-            // Función para filtrar la tabla
             function filtrarTabla() {
                 const searchText = document.getElementById('searchInput').value.toLowerCase();
                 const filterType = document.getElementById('filterType').value;
                 const filterLab = document.getElementById('filterLab').value;
                 const rows = document.querySelectorAll('#materialTableBody tr');
                 
-                let resultsFound = false; // Variable para rastrear si se encontraron resultados
+                let resultsFound = false; 
 
                 rows.forEach(row => {
-                    // Ignoramos la fila de "No hay materiales registrados" si existe.
-                    // Si el contenido de la primera celda es "No hay materiales registrados", ocultarla.
                     if (row.firstElementChild && row.firstElementChild.textContent.trim() === 'No hay materiales registrados') {
                         row.style.display = 'none';
-                        return; // Salir de esta iteración y pasar a la siguiente fila
+                        return;
                     }
 
                     const nombre = row.querySelector('.nombre').textContent.toLowerCase();
@@ -303,8 +315,8 @@
                     const laboratorio = laboratorioElement ? laboratorioElement.textContent : '';
                     
                     const matchesSearch = searchText === '' || 
-                                          nombre.includes(searchText) || 
-                                          clave.includes(searchText);
+                                            nombre.includes(searchText) || 
+                                            clave.includes(searchText);
                     
                     const matchesType = filterType === '' || 
                                         (filterType === 'reactivo' && tipo.includes('reactivo')) ||
@@ -312,7 +324,7 @@
                                         (filterType === 'consumible' && tipo.includes('consumible'));
                     
                     const matchesLab = filterLab === '' || 
-                                       laboratorio === filterLab;
+                                        laboratorio === filterLab;
                     
                     if (matchesSearch && matchesType && matchesLab) {
                         row.style.display = '';
@@ -322,35 +334,29 @@
                     }
                 });
                 
-                // Manejar el mensaje de "No se encontraron resultados"
                 const tbody = document.getElementById('materialTableBody');
                 let noResultsRow = tbody.querySelector('tr.no-results-row');
 
                 if (!resultsFound) {
                     if (!noResultsRow) {
-                        // Si no hay resultados y la fila no existe, crearla
                         noResultsRow = document.createElement('tr');
                         noResultsRow.classList.add('no-results-row');
                         noResultsRow.innerHTML = '<td colspan="8" class="text-center">No se encontraron resultados</td>';
                         tbody.appendChild(noResultsRow);
                     } else {
-                        // Si no hay resultados y la fila ya existe, asegurarse de que esté visible
                         noResultsRow.style.display = '';
                     }
                 } else {
-                    // Si hay resultados y la fila de "no resultados" existe, ocultarla o removerla
                     if (noResultsRow) {
                         noResultsRow.style.display = 'none';
                     }
                 }
             }
 
-            // Event listeners para los filtros
             document.getElementById('searchInput').addEventListener('input', filtrarTabla);
             document.getElementById('filterType').addEventListener('change', filtrarTabla);
             document.getElementById('filterLab').addEventListener('change', filtrarTabla);
 
-            // Ejecutar el filtro al cargar la página para aplicar cualquier filtro inicial o mostrar el mensaje "No hay materiales registrados"
             document.addEventListener('DOMContentLoaded', filtrarTabla);
         </script>
     </body>
