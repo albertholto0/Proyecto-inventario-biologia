@@ -11,5 +11,20 @@ public class EquipoService {
         return dao.listar();
     }
     
-    // Puedes agregar más métodos según necesites
+    public List<String> obtenerOpcionesGrupos() {
+        return dao.obtenerNombresGrupos();
+    }
+    
+    public List<String> obtenerOpcionesCategorias() {
+        return dao.obtenerNombresCategorias();
+    }
+    
+    public List<String> obtenerOpcionesLaboratorios() {
+        return dao.obtenerNombresLaboratorios();
+    }
+    
+    public List<String> obtenerOpcionesEstadosFisicos() {
+        return dao.obtenerNombresEstadosFisicos();
+    }
+    
 }

@@ -57,4 +57,92 @@ public class EquipoDAO {
         }
         return lista;
     }
+
+    public List<String> obtenerNombresGrupos() {
+        List<String> grupos = new ArrayList<>();
+        String sql = "SELECT nombre_grupo FROM grupos ORDER BY nombre_grupo";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                grupos.add(rs.getString("nombre_grupo"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return grupos;
+    }
+
+    public List<String> obtenerNombresCategorias() {
+        List<String> categorias = new ArrayList<>();
+        String sql = "SELECT nombre_categoria FROM categorias ORDER BY nombre_categoria";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                categorias.add(rs.getString("nombre_categoria"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return categorias;
+    }
+
+    public List<String> obtenerNombresLaboratorios() {
+        List<String> laboratorios = new ArrayList<>();
+        String sql = "SELECT nombre_laboratorio FROM laboratorios ORDER BY nombre_laboratorio";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                laboratorios.add(rs.getString("nombre_laboratorio"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return laboratorios;
+    }
+
+    public List<String> obtenerNombresEstadosFisicos() {
+        List<String> estados = new ArrayList<>();
+        String sql = "SELECT nombre_estado FROM estados_fisicos ORDER BY nombre_estado";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                estados.add(rs.getString("nombre_estado"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estados;
+    }
+    
+    public List<Equipo> obtenerGruposCompletos() {
+        List<Equipo> grupos = new ArrayList<>();
+        String sql = "SELECT id_grupo, nombre_grupo FROM grupos ORDER BY nombre_grupo";
+        
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                Equipo e = new Equipo();
+                e.setIdGrupo(rs.getInt("id_grupo"));
+                e.setNombreGrupo(rs.getString("nombre_grupo"));
+                grupos.add(e);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return grupos;
+    }
 }

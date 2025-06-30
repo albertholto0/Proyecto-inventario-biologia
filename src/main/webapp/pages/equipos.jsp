@@ -43,7 +43,6 @@
                 </button>
             </div>
 
-            <!-- Filtros -->
             <div class="card mb-4">
                 <div class="card-body">
                     <form class="row g-3" id="filtrosForm">
@@ -51,34 +50,36 @@
                             <label for="grupo" class="form-label">Grupo</label>
                             <select id="grupo" class="form-select">
                                 <option value="">Todos</option>
-                                <option value="1">Grupo 1</option>
-                                <option value="2">Grupo 2</option>
+                                <c:forEach items="${equipoService.obtenerOpcionesGrupos()}" var="grupo">
+                                    <option value="${grupo}">${grupo}</option>
+                                </c:forEach>
                             </select>
                         </div>
                         <div class="col-md-2">
                             <label for="categoria" class="form-label">Categoría</label>
                             <select id="categoria" class="form-select">
                                 <option value="">Todas</option>
-                                <option value="1">Categoría 1</option>
-                                <option value="2">Categoría 2</option>
+                                <c:forEach items="${equipoService.obtenerOpcionesCategorias()}" var="categoria">
+                                    <option value="${categoria}">${categoria}</option>
+                                </c:forEach>
                             </select>
                         </div>
                         <div class="col-md-2">
                             <label for="laboratorio" class="form-label">Laboratorio</label>
                             <select id="laboratorio" class="form-select">
                                 <option value="">Todos</option>
-                                <option value="1">Lab 1</option>
-                                <option value="2">Lab 2</option>
-                                <option value="3">Lab 3</option>
+                                <c:forEach items="${equipoService.obtenerOpcionesLaboratorios()}" var="laboratorio">
+                                    <option value="${laboratorio}">${laboratorio}</option>
+                                </c:forEach>
                             </select>
                         </div>
                         <div class="col-md-2">
                             <label for="estadoFisico" class="form-label">Estado Físico</label>
                             <select id="estadoFisico" class="form-select">
                                 <option value="">Todos</option>
-                                <option value="1">Bueno</option>
-                                <option value="2">Regular</option>
-                                <option value="3">Malo</option>
+                                <c:forEach items="${equipoService.obtenerOpcionesEstadosFisicos()}" var="estado">
+                                    <option value="${estado}">${estado}</option>
+                                </c:forEach>
                             </select>
                         </div>
                         <div class="col-md-4 d-flex align-items-end">
@@ -89,7 +90,6 @@
                 </div>
             </div>
 
-            <!-- Listado de equipos -->
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
@@ -113,7 +113,7 @@
                                         </tr>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:forEach items="${equipos}" var="equipo">
+                                        <c:forEach items="${equipos}" var="equipo" varStatus="loop">
                                             <tr>
                                                 <td>${equipo.nombreEquipo}</td>
                                                 <td>${equipo.nombreGrupo}</td>
@@ -140,7 +140,6 @@
             </div>
         </div>
 
-        <!-- Modal Detalle de Equipo -->
         <div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -188,7 +187,6 @@
             </div>
         </div>
 
-        <!-- Modal Registro/Edición de Equipo -->
         <div class="modal fade" id="equipoModal" tabindex="-1" aria-labelledby="equipoModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <form class="modal-content">
@@ -197,8 +195,7 @@
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body row g-3">
-                        <!-- Contenido del formulario se mantiene igual -->
-                    </div>
+                        </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Guardar</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -213,7 +210,7 @@
             function mostrarDetalleEquipo(idEquipo) {
                 // En una aplicación real, aquí harías una llamada AJAX para obtener los detalles del equipo
                 // Por ahora, simulamos los datos con los equipos disponibles en la página
-                
+
                 const equipos = [
                     <c:forEach items="${equipos}" var="equipo" varStatus="loop">
                     {
@@ -233,9 +230,9 @@
                     }${!loop.last ? ',' : ''}
                     </c:forEach>
                 ];
-                
+
                 const equipo = equipos.find(e => e.idEquipo === idEquipo);
-                
+
                 if (equipo) {
                     document.getElementById('detalleNombre').textContent = equipo.nombreEquipo;
                     document.getElementById('detalleGrupo').textContent = equipo.nombreGrupo;
@@ -249,41 +246,41 @@
                     document.getElementById('detallePrecio').textContent = equipo.precio ? '$' + equipo.precio : 'No especificado';
                     document.getElementById('detalleLaboratorio').textContent = equipo.nombreLaboratorio;
                     document.getElementById('detalleEstadoFisico').textContent = equipo.nombreEstadoFisico;
-                    
+
                     const modal = new bootstrap.Modal(document.getElementById('detalleModal'));
                     modal.show();
                 }
             }
-            
+
             // Filtrado de equipos con JavaScript
             document.getElementById('filtrosForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 filtrarEquipos();
             });
-            
+
             function filtrarEquipos() {
                 const grupo = document.getElementById('grupo').value.toLowerCase();
                 const categoria = document.getElementById('categoria').value.toLowerCase();
                 const laboratorio = document.getElementById('laboratorio').value.toLowerCase();
                 const estadoFisico = document.getElementById('estadoFisico').value.toLowerCase();
-                
+
                 const filas = document.querySelectorAll('#tablaEquipos tbody tr');
                 let resultadosEncontrados = false;
-                
+
                 filas.forEach(fila => {
                     if (fila.cells.length === 1) return; // Saltar fila de "no hay resultados"
-                    
-                    const nombreFila = fila.cells[0].textContent.toLowerCase();
+
+                    // The indices for the filterable columns are 1 (Grupo), 2 (Categoría), 3 (Laboratorio), 4 (Estado Físico)
                     const grupoFila = fila.cells[1].textContent.toLowerCase();
                     const categoriaFila = fila.cells[2].textContent.toLowerCase();
                     const laboratorioFila = fila.cells[3].textContent.toLowerCase();
                     const estadoFisicoFila = fila.cells[4].textContent.toLowerCase();
-                    
+
                     const coincideGrupo = !grupo || grupoFila.includes(grupo);
                     const coincideCategoria = !categoria || categoriaFila.includes(categoria);
                     const coincideLaboratorio = !laboratorio || laboratorioFila.includes(laboratorio);
                     const coincideEstadoFisico = !estadoFisico || estadoFisicoFila.includes(estadoFisico);
-                    
+
                     if (coincideGrupo && coincideCategoria && coincideLaboratorio && coincideEstadoFisico) {
                         fila.style.display = '';
                         resultadosEncontrados = true;
@@ -291,14 +288,24 @@
                         fila.style.display = 'none';
                     }
                 });
-                
+
                 // Mostrar mensaje si no hay resultados
                 const mensajeNoResultados = document.querySelector('#tablaEquipos tbody tr td[colspan="6"]');
                 if (mensajeNoResultados) {
                     mensajeNoResultados.parentElement.style.display = resultadosEncontrados ? 'none' : '';
+                } else if (!resultadosEncontrados && filas.length > 0) {
+                    // If no "no results" message exists, and no results were found, add it.
+                    const tbody = document.querySelector('#tablaEquipos tbody');
+                    const noResultsRow = document.createElement('tr');
+                    noResultsRow.innerHTML = '<td colspan="6" class="text-center">No se encontraron equipos</td>';
+                    tbody.appendChild(noResultsRow);
+                } else if (resultadosEncontrados && filas.length > 0 && filas[filas.length - 1].cells.length === 1) {
+                    // If results are found and a "no results" message is present (from a previous filter), remove it.
+                    const tbody = document.querySelector('#tablaEquipos tbody');
+                    tbody.removeChild(filas[filas.length - 1]);
                 }
             }
-            
+
             function limpiarFiltros() {
                 document.getElementById('grupo').value = '';
                 document.getElementById('categoria').value = '';
