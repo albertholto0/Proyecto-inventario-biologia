@@ -10,4 +10,8 @@ public class LaboratorioService {
     public List<Laboratorio> obtenerLaboratorios() {
         return dao.listar();
     }
+    
+    public boolean cambiarResponsable(int idLaboratorio, int idResponsable) {
+        return dao.actualizarResponsable(idLaboratorio, idResponsable);
+    }
 }
