@@ -1,263 +1,139 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="alumnoService" class="com.unsij.services.AlumnoService" scope="page"/>
+
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Módulo de Alumnos</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <jsp:include page="/components/nav.jsp" />
+    <head>
+        <meta charset="UTF-8">
+        <title>Módulo de Alumnos</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    </head>
 
-    <div class="container my-4">
-        <h1 class="mb-4"><i class="bi bi-people"></i> Módulo de Alumnos</h1>
-        <div class="row">
-            <!-- Directorio de alumnos -->
-            <div class="col-lg-7 mb-4">
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <span><i class="bi bi-list-ul"></i> Directorio de Alumnos</span>
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#alumnoModal">
-                            <i class="bi bi-plus-circle"></i> Nuevo Alumno
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-hover" id="tablaAlumnos">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Matrícula</th>
-                                    <th>Correo</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Filas de alumnos dinámicas -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <!-- Historial y Reporte -->
-            <div class="col-lg-5">
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="bi bi-clock-history"></i> Historial de Préstamos
-                    </div>
-                    <div class="card-body" id="historialPrestamos">
-                        <p class="text-muted">Selecciona un alumno para ver su historial.</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <i class="bi bi-bar-chart"></i> Reporte de Actividades
-                    </div>
-                    <div class="card-body">
-                        <canvas id="reporteActividades" height="180"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <body>
+        <jsp:include page="/components/nav.jsp" />
 
-    <!-- Modal Registro/Edición Alumno -->
-    <div class="modal fade" id="alumnoModal" tabindex="-1" aria-labelledby="alumnoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form class="modal-content" id="formAlumno">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="alumnoModalLabel">Registrar Alumno</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        <div class="container my-4">
+            <div class="mb-4">
+                <h2 class="fw-bold mb-3">
+                    <i class="bi bi-people-fill text-primary me-2"></i>Gestión de Alumnos
+                </h2>
+                <p class="text-muted">
+                    Consulta, registra y administra los alumnos que tienen acceso a los laboratorios.
+                </p>
+            </div>
+
+            <!-- Filtros (opcional) -->
+            <form class="row g-3 mb-4" id="filtrosForm">
+                <div class="col-md-3">
+                    <label for="grupo" class="form-label">Grupo</label>
+                    <select id="grupo" class="form-select">
+                        <option value="">Todos</option>
+                        <option value="1">Grupo 1</option>
+                        <option value="2">Grupo 2</option>
+                    </select>
                 </div>
-                <div class="modal-body">
-                    <input type="hidden" id="alumnoId">
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre completo</label>
-                        <input type="text" class="form-control" id="nombre" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="matricula" class="form-label">Matrícula</label>
-                        <input type="text" class="form-control" id="matricula" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="correo" class="form-label">Correo electrónico</label>
-                        <input type="email" class="form-control" id="correo" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="grupo" class="form-label">Grupo</label>
-                        <input type="text" class="form-control" id="grupo" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="carrera" class="form-label">Carrera</label>
-                        <input type="text" class="form-control" id="carrera" required>
-                    </div>
+                <div class="col-md-3">
+                    <label for="carrera" class="form-label">Carrera</label>
+                    <select id="carrera" class="form-select">
+                        <option value="">Todas</option>
+                        <option value="Biología">Biología</option>
+                        <option value="Química">Química</option>
+                    </select>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Filtrar</button>
                 </div>
             </form>
+
+            <!-- Botones de acción -->
+            <div class="mb-3 d-flex justify-content-between">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#alumnoModal">Registrar Alumno</button>
+                <div>
+                    <button class="btn btn-outline-secondary me-2">Exportar PDF</button>
+                    <button class="btn btn-outline-secondary">Exportar Excel</button>
+                </div>
+            </div>
+
+            <!-- Listado de alumnos -->
+            <table class="table table-bordered table-hover" id="tablaAlumnos">
+                <thead class="table-light">
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nombre Completo</th>
+                        <th>Correo</th>
+                        <th>Grupo</th>
+                        <th>Carrera</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:set var="alumnos" value="${alumnoService.obtenerAlumnos()}"/>
+                    <c:choose>
+                        <c:when test="${empty alumnos}">
+                            <tr>
+                                <td colspan="6" class="text-center">No se encontraron alumnos</td>
+                            </tr>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${alumnos}" var="alumno">
+                                <tr>
+                                    <td>${alumno.matricula}</td>
+                                    <td>${alumno.nombreCompleto}</td>
+                                    <td>${alumno.correo}</td>
+                                    <td>${alumno.grupo}</td>
+                                    <td>${alumno.carrera}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#detalleModal">Detalle</button>
+                                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#alumnoModal">Editar</button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Cargar el encabezado de navegación
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch('/components/nav.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('main-header').innerHTML = data;
-                });
-        });
+        <!-- Modal Registro/Edición de Alumno -->
+        <div class="modal fade" id="alumnoModal" tabindex="-1" aria-labelledby="alumnoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="alumnoModalLabel">Registrar/Editar Alumno</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body row g-3">
+                        <div class="col-md-12">
+                            <label for="nombreCompleto" class="form-label">Nombre Completo</label>
+                            <input type="text" class="form-control" id="nombreCompleto" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="correo" class="form-label">Correo</label>
+                            <input type="email" class="form-control" id="correo">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="matricula" class="form-label">Matrícula</label>
+                            <input type="number" class="form-control" id="matricula">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="grupo" class="form-label">Grupo</label>
+                            <input type="number" class="form-control" id="grupo" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="carrera" class="form-label">Carrera</label>
+                            <input type="text" class="form-control" id="carrera" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-        // Datos simulados de alumnos y préstamos
-        let alumnos = [
-            { id: 1, nombre: "Ana López", matricula: "A001", correo: "ana@correo.com" },
-            { id: 2, nombre: "Luis Pérez", matricula: "A002", correo: "luis@correo.com" }
-        ];
-        let prestamos = {
-            1: [
-                { fecha: "2024-06-01", item: "Libro: Matemáticas" },
-                { fecha: "2024-06-10", item: "Laptop HP" }
-            ],
-            2: [
-                { fecha: "2024-06-05", item: "Libro: Física" }
-            ]
-        };
-
-        // Renderizar tabla de alumnos
-        function renderAlumnos() {
-            const tbody = document.querySelector("#tablaAlumnos tbody");
-            tbody.innerHTML = "";
-            alumnos.forEach(alumno => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                    <td>${alumno.nombre}</td>
-                    <td>${alumno.matricula}</td>
-                    <td>${alumno.correo}</td>
-                    <td>
-                        <button class="btn btn-sm btn-info me-1" onclick="editarAlumno(${alumno.id})"><i class="bi bi-pencil"></i></button>
-                        <button class="btn btn-sm btn-danger" onclick="eliminarAlumno(${alumno.id})"><i class="bi bi-trash"></i></button>
-                        <button class="btn btn-sm btn-secondary" onclick="verHistorial(${alumno.id})"><i class="bi bi-clock-history"></i></button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // Renderizar tabla de alumnos (ya no es necesaria esta función si usas JSTL)
-        // function renderAlumnos() { ... }
-
-        // Mover la lógica del modal y las interacciones con la base de datos a JavaScript AJAX o nuevos Servlets
-        // Por ahora, estas funciones seguirán operando sobre datos locales si los defines,
-        // o no harán nada si el array 'alumnos' está vacío por la eliminación de los datos simulados.
-
-        // Modal: Registro o edición de alumno (esta parte DEBERÍA enviar a un Servlet)
-        document.getElementById("formAlumno").addEventListener("submit", function(e) {
-            e.preventDefault();
-            // Aquí DEBERÍAS enviar los datos del formulario a un nuevo Servlet
-            // (por ejemplo, /alumnos?action=guardar o /api/alumnos)
-            // usando fetch() o XMLHttpRequest, y luego recargar la página o actualizar la tabla.
-            // Por ahora, este código aún no está conectado a tu backend para guardar.
-            const id = document.getElementById("alumnoId").value;
-            const nombre = document.getElementById("nombre").value;
-            const matricula = document.getElementById("matricula").value;
-            const correo = document.getElementById("correo").value;
-            if (id) {
-                // Editar
-                const idx = alumnos.findIndex(a => a.id == id);
-                if (idx > -1) {
-                    alumnos[idx] = { id: Number(id), nombre, matricula, correo };
-                }
-            } else {
-                // Nuevo
-                const nuevoId = alumnos.length ? Math.max(...alumnos.map(a => a.id)) + 1 : 1;
-                alumnos.push({ id: nuevoId, nombre, matricula, correo });
-            }
-            renderAlumnos();
-                bootstrap.Modal.getInstance(document.getElementById('alumnoModal')).hide();
-            this.reset();
-            document.getElementById("alumnoId").value = "";
-            // Nota: La tabla no se actualizará automáticamente sin recargar o sin lógica AJAX
-        });
-
-        // Editar alumno
-        window.editarAlumno = function(id) {
-            const alumno = alumnos.find(a => a.id === id);
-            if (alumno) {
-                document.getElementById("alumnoId").value = alumno.id;
-                document.getElementById("nombre").value = alumno.nombre;
-                document.getElementById("matricula").value = alumno.matricula;
-                document.getElementById("correo").value = alumno.correo;
-                document.getElementById("alumnoModalLabel").textContent = "Editar Alumno";
-                new bootstrap.Modal(document.getElementById('alumnoModal')).show();
-            }
-        };
-
-        // Eliminar alumno
-        window.eliminarAlumno = function(id) {
-            if (confirm("¿Seguro que deseas eliminar este alumno?")) {
-                alumnos = alumnos.filter(a => a.id !== id);
-                renderAlumnos();
-                document.getElementById("historialPrestamos").innerHTML = '<p class="text-muted">Selecciona un alumno para ver su historial.</p>';
-            }
-        };
-
-        // Ver historial de préstamos
-        window.verHistorial = function(id) {
-            const alumno = alumnos.find(a => a.id === id);
-            const historial = prestamos[id] || [];
-            let html = `<h6>${alumno.nombre} (${alumno.matricula})</h6>`;
-            if (historial.length) {
-                html += '<ul class="list-group">';
-                historial.forEach(p => {
-                    html += `<li class="list-group-item">${p.fecha} - ${p.item}</li>`;
-                });
-                html += '</ul>';
-            } else {
-                html += '<p class="text-muted">Sin préstamos registrados.</p>';
-            }
-            document.getElementById("historialPrestamos").innerHTML = html;
-        };
-
-        // Reset modal al abrir para nuevo registro
-        document.getElementById('alumnoModal').addEventListener('show.bs.modal', function (event) {
-            if (!event.relatedTarget || event.relatedTarget.innerText.includes('Nuevo')) {
-                document.getElementById("formAlumno").reset();
-                document.getElementById("alumnoId").value = "";
-                document.getElementById("alumnoModalLabel").textContent = "Registrar Alumno";
-            }
-        });
-
-        // Reporte de actividades con Chart.js
-        function renderReporte() {
-            const ctx = document.getElementById('reporteActividades').getContext('2d');
-            const data = {
-                labels: alumnos.map(a => a.nombre),
-                datasets: [{
-                    label: 'Préstamos',
-                    data: alumnos.map(a => (prestamos[a.id] || []).length),
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)'
-                }]
-            };
-            new Chart(ctx, {
-                type: 'bar',
-                data: data,
-                options: {
-                    responsive: true,
-                    plugins: { legend: { display: false } }
-        }
-            });
-        }
-
-        // Inicializar
-        renderAlumnos();
-        renderReporte();
-    </script>
-</body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>
