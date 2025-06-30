@@ -11,6 +11,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+        <!-- SweetAlert2 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
     <body>
         <jsp:include page="/components/nav.jsp" />
@@ -31,14 +33,8 @@
 
             <!-- Tabla de usuarios -->
             <div class="card shadow-sm">
-                <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                <div class="card-header bg-secondary text-white">
                     <span>Listado de Usuarios</span>
-                    <div class="input-group" style="width: 300px;">
-                        <input type="text" class="form-control" placeholder="Buscar usuario..." id="buscarUsuario">
-                        <button class="btn btn-light" type="button">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -46,6 +42,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Nombre</th>
                                     <th>Usuario</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -55,16 +52,17 @@
                                 <c:forEach items="${usuarios}" var="usuario">
                                     <tr>
                                         <td>${usuario.id}</td>
+                                        <td>${usuario.nombre}</td>
                                         <td>${usuario.usuario}</td>
                                         <td>
                                             <button class="btn btn-sm btn-outline-secondary me-1" data-bs-toggle="modal" 
                                                     data-bs-target="#modalVerUsuario" data-id="${usuario.id}">
                                                 <i class="bi bi-eye"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" 
-                                                    data-bs-target="#modalEliminarUsuario" data-id="${usuario.id}">
+                                            <a href="${pageContext.request.contextPath}/UsuarioController?action=delete&id=${usuario.id}" 
+                                               class="btn btn-sm btn-outline-danger delete-btn">
                                                 <i class="bi bi-trash"></i>
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -75,7 +73,64 @@
             </div>
         </div>
 
-        <!-- Modales (mantener igual) -->
+        <!-- Modal Agregar Usuario -->
+        <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="${pageContext.request.contextPath}/UsuarioController" method="POST">
+                        <div class="modal-header bg-secondary text-white">
+                            <h5 class="modal-title" id="modalAgregarUsuarioLabel">Agregar Nuevo Usuario</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre Completo</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="usuario" class="form-label">Nombre de Usuario</label>
+                                <input type="text" class="form-control" id="usuario" name="usuario" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="contrasena" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="contrasena" name="contrasena" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-secondary" name="action" value="add">Guardar Usuario</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- SweetAlert2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            // Confirmación de eliminación con SweetAlert2
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const url = this.getAttribute('href');
+                    
+                    Swal.fire({
+                        title: '¿Eliminar usuario?',
+                        text: "Esta acción no se puede deshacer",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, eliminar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = url;
+                        }
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
