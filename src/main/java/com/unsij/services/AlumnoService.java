@@ -11,5 +11,19 @@ public class AlumnoService {
         return dao.listar();
     }
     
-    // Puedes agregar más métodos según necesites
+    public List<Alumno> filtrarAlumnos(Integer grupo, String carrera) {
+        return dao.listarFiltrado(grupo, carrera);
+    }
+    
+    public boolean guardarAlumno(Alumno alumno) {
+        if (alumno.getIdAlumno() == 0) {
+            return dao.insertar(alumno);
+        } else {
+            return dao.actualizar(alumno);
+        }
+    }
+    
+    public Alumno obtenerAlumnoPorId(int id) {
+        return dao.obtenerPorId(id);
+    }
 }
