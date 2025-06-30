@@ -1,7 +1,9 @@
 package com.unsij.servlets;
 
+import com.unsij.beans.Usuario;
+import com.unsij.dao.UsuarioDAO;
+
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +16,13 @@ public class AuthServlet extends HttpServlet {
         String usuario = request.getParameter("usuario");
         String contrasena = request.getParameter("contrasena");
         
-        if ("admin".equals(usuario) && "admin".equals(contrasena)) {
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        Usuario user = usuarioDAO.validarUsuario(usuario, contrasena);
+        
+        if (user != null) { // Si se encontró un usuario con esas credenciales
             HttpSession session = request.getSession();
             session.setAttribute("authenticated", true);
-            session.setAttribute("username", usuario);
+            session.setAttribute("username", user.getUsuario()); // Almacena el nombre de usuario de la DB
             
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         } else {

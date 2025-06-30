@@ -45,6 +45,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/pages/usuarios.jsp">
+                                    <i class="bi bi-people-fill text-secondary me-2"></i> Usuarios
+                                </a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item d-flex align-items-center text-danger" href="${pageContext.request.contextPath}/pages/login.jsp">
                                     <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
                                 </a>

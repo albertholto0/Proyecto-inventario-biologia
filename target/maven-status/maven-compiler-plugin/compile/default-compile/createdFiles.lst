@@ -1,3 +1,6 @@
+com/unsij/dao/UsuarioDAO.class
 com/unsij/servlets/AuthServlet.class
 com/unsij/servlets/LogoutServlet.class
 com/unsij/servlets/LoginRedirectServlet.class
+com/unsij/utils/DBConnection.class
+com/unsij/beans/Usuario.class

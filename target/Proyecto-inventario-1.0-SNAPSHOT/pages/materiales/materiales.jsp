@@ -221,7 +221,6 @@
             </div>
         </div>
         `;
-                alert(`Tabla generada para ${titulo} con color ${color}`); // ← Debug
                 document.getElementById('detalleMateriales').innerHTML = tabla;
                 // Scroll suave al detalle
                 document.getElementById('detalleMateriales').scrollIntoView({behavior: "smooth"});

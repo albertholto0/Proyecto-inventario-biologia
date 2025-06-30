@@ -1,3 +1,6 @@
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/servlets/LogoutServlet.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/servlets/LoginRedirectServlet.java
+/home/albertholto/Proyecto-inventario/src/main/java/com/unsij/utils/DBConnection.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/servlets/AuthServlet.java
+/home/albertholto/Proyecto-inventario/src/main/java/com/unsij/dao/UsuarioDAO.java
+/home/albertholto/Proyecto-inventario/src/main/java/com/unsij/beans/Usuario.java
