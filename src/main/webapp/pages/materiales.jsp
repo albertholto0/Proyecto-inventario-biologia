@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:useBean id="materialService" class="com.unsij.services.MaterialService" scope="page"/>
+<jsp:useBean id="laboratorioService" class="com.unsij.services.LaboratorioService" scope="page"/>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -181,8 +182,13 @@
                                     <input type="number" class="form-control" name="cantidad" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">ID Laboratorio</label>
-                                    <input type="number" class="form-control" name="idLaboratorio">
+                                    <label class="form-label">Laboratorio</label>
+                                    <select class="form-select" name="idLaboratorio">
+                                        <option value="">Sin laboratorio asignado</option>
+                                        <c:forEach items="${laboratorioService.obtenerLaboratorios()}" var="laboratorio">
+                                            <option value="${laboratorio.idLaboratorio}">${laboratorio.nombreLaboratorio}</option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -234,8 +240,13 @@
                                     <input type="number" class="form-control" id="editCantidad" name="cantidad" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">ID Laboratorio</label>
-                                    <input type="number" class="form-control" id="editIdLaboratorio" name="idLaboratorio">
+                                    <label class="form-label">Laboratorio</label>
+                                    <select class="form-select" id="editIdLaboratorio" name="idLaboratorio">
+                                        <option value="">Sin laboratorio asignado</option>
+                                        <c:forEach items="${laboratorioService.obtenerLaboratorios()}" var="laboratorio">
+                                            <option value="${laboratorio.idLaboratorio}">${laboratorio.nombreLaboratorio}</option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -290,7 +301,14 @@
                 document.getElementById('editUnidad').value = unidad;
                 document.getElementById('editClave').value = clave;
                 document.getElementById('editCantidad').value = cantidad;
-                document.getElementById('editIdLaboratorio').value = idLaboratorio;
+                
+                // Seleccionar el laboratorio correcto en el select
+                const selectLab = document.getElementById('editIdLaboratorio');
+                if (idLaboratorio) {
+                    selectLab.value = idLaboratorio;
+                } else {
+                    selectLab.value = '';
+                }
             }
 
             function filtrarTabla() {
@@ -319,12 +337,12 @@
                                             clave.includes(searchText);
                     
                     const matchesType = filterType === '' || 
-                                        (filterType === 'reactivo' && tipo.includes('reactivo')) ||
-                                        (filterType === 'material' && tipo.includes('material')) ||
-                                        (filterType === 'consumible' && tipo.includes('consumible'));
+                                            (filterType === 'reactivo' && tipo.includes('reactivo')) ||
+                                            (filterType === 'material' && tipo.includes('material')) ||
+                                            (filterType === 'consumible' && tipo.includes('consumible'));
                     
                     const matchesLab = filterLab === '' || 
-                                        laboratorio === filterLab;
+                                            laboratorio === filterLab;
                     
                     if (matchesSearch && matchesType && matchesLab) {
                         row.style.display = '';
