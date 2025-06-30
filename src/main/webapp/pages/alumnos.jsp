@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -86,6 +87,14 @@
                         <label for="correo" class="form-label">Correo electrónico</label>
                         <input type="email" class="form-control" id="correo" required>
                     </div>
+                    <div class="mb-3">
+                        <label for="grupo" class="form-label">Grupo</label>
+                        <input type="text" class="form-control" id="grupo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="carrera" class="form-label">Carrera</label>
+                        <input type="text" class="form-control" id="carrera" required>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -141,9 +150,20 @@
             });
         }
 
-        // Modal: Registrar o editar alumno
+        // Renderizar tabla de alumnos (ya no es necesaria esta función si usas JSTL)
+        // function renderAlumnos() { ... }
+
+        // Mover la lógica del modal y las interacciones con la base de datos a JavaScript AJAX o nuevos Servlets
+        // Por ahora, estas funciones seguirán operando sobre datos locales si los defines,
+        // o no harán nada si el array 'alumnos' está vacío por la eliminación de los datos simulados.
+
+        // Modal: Registro o edición de alumno (esta parte DEBERÍA enviar a un Servlet)
         document.getElementById("formAlumno").addEventListener("submit", function(e) {
             e.preventDefault();
+            // Aquí DEBERÍAS enviar los datos del formulario a un nuevo Servlet
+            // (por ejemplo, /alumnos?action=guardar o /api/alumnos)
+            // usando fetch() o XMLHttpRequest, y luego recargar la página o actualizar la tabla.
+            // Por ahora, este código aún no está conectado a tu backend para guardar.
             const id = document.getElementById("alumnoId").value;
             const nombre = document.getElementById("nombre").value;
             const matricula = document.getElementById("matricula").value;
@@ -160,9 +180,10 @@
                 alumnos.push({ id: nuevoId, nombre, matricula, correo });
             }
             renderAlumnos();
-            bootstrap.Modal.getInstance(document.getElementById('alumnoModal')).hide();
+                bootstrap.Modal.getInstance(document.getElementById('alumnoModal')).hide();
             this.reset();
             document.getElementById("alumnoId").value = "";
+            // Nota: La tabla no se actualizará automáticamente sin recargar o sin lógica AJAX
         });
 
         // Editar alumno
@@ -230,7 +251,7 @@
                 options: {
                     responsive: true,
                     plugins: { legend: { display: false } }
-                }
+        }
             });
         }
 

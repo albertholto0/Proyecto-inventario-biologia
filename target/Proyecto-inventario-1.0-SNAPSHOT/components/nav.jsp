@@ -40,11 +40,6 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/pages/reportes.jsp">
-                                    <i class="bi bi-bar-chart-fill text-success me-2"></i> Reportes
-                                </a>
-                            </li>
-                            <li>
                                 <a class="dropdown-item d-flex align-items-center" href="${pageContext.request.contextPath}/pages/usuarios.jsp">
                                     <i class="bi bi-people-fill text-secondary me-2"></i> Usuarios
                                 </a>

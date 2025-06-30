@@ -1,6 +1,10 @@
-com/unsij/dao/UsuarioDAO.class
-com/unsij/servlets/AuthServlet.class
 com/unsij/servlets/LogoutServlet.class
 com/unsij/servlets/LoginRedirectServlet.class
+com/unsij/dao/EquipoDAO.class
 com/unsij/utils/DBConnection.class
 com/unsij/beans/Usuario.class
+com/unsij/services/EquipoService.class
+com/unsij/beans/Equipo.class
+com/unsij/dao/UsuarioDAO.class
+com/unsij/servlets/AuthServlet.class
+com/unsij/controllers/EquipoController.class

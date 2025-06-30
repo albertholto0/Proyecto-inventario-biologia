@@ -1,4 +1,8 @@
+/home/albertholto/Proyecto-inventario/src/main/java/com/unsij/beans/Equipo.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/servlets/LogoutServlet.java
+/home/albertholto/Proyecto-inventario/src/main/java/com/unsij/controllers/EquipoController.java
+/home/albertholto/Proyecto-inventario/src/main/java/com/unsij/dao/EquipoDAO.java
+/home/albertholto/Proyecto-inventario/src/main/java/com/unsij/services/EquipoService.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/servlets/LoginRedirectServlet.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/utils/DBConnection.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/servlets/AuthServlet.java
