@@ -26,7 +26,7 @@
                 </p>
             </div>
 
-            <!-- Botón para agregar nuevo material (movido arriba) -->
+            <!-- Botón para agregar nuevo material -->
             <div class="d-flex justify-content-end mb-3">
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalRegistrarMaterial">
                     <i class="bi bi-plus-circle me-1"></i>Agregar Material
@@ -103,7 +103,12 @@
                                         </td>
                                         <td>${material.nombreLaboratorio}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-outline-secondary">Editar</button>
+                                            <button class="btn btn-sm btn-outline-secondary" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#modalEditarMaterial"
+                                                    onclick="cargarDatosEdicion(${material.idMaterial}, '${material.nombre}', '${material.tipo}', '${material.presentacion}', ${material.unidad}, '${material.clave}', ${material.cantidad}, ${material.idLaboratorio})">
+                                                Editar
+                                            </button>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -113,11 +118,128 @@
                 </table>
             </div>
 
-            <!-- Modal Registrar Material (mantener igual) -->
-            <!-- Modal Historial (mantener igual) -->
+            <!-- Modal Registrar Material -->
+            <div class="modal fade" id="modalRegistrarMaterial" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Registrar Nuevo Material</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="${pageContext.request.contextPath}/MaterialController" method="POST">
+                            <div class="modal-body">
+                                <input type="hidden" name="action" value="crear">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Material</label>
+                                    <select class="form-select" name="tipo" required>
+                                        <option value="" selected disabled>Seleccione un tipo</option>
+                                        <option value="reactivo">Reactivo</option>
+                                        <option value="material">Material</option>
+                                        <option value="consumible">Consumible</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" name="nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Presentación</label>
+                                    <input type="text" class="form-control" name="presentacion" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Unidad</label>
+                                    <input type="number" class="form-control" name="unidad" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Clave</label>
+                                    <input type="text" class="form-control" name="clave" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Cantidad</label>
+                                    <input type="number" class="form-control" name="cantidad" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">ID Laboratorio</label>
+                                    <input type="number" class="form-control" name="idLaboratorio">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Editar Material -->
+            <div class="modal fade" id="modalEditarMaterial" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar Material</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="${pageContext.request.contextPath}/MaterialController" method="POST">
+                            <div class="modal-body">
+                                <input type="hidden" name="action" value="actualizar">
+                                <input type="hidden" id="editIdMaterial" name="idMaterial">
+                                <div class="mb-3">
+                                    <label class="form-label">Tipo de Material</label>
+                                    <select class="form-select" id="editTipo" name="tipo" required>
+                                        <option value="reactivo">Reactivo</option>
+                                        <option value="material">Material</option>
+                                        <option value="consumible">Consumible</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="editNombre" name="nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Presentación</label>
+                                    <input type="text" class="form-control" id="editPresentacion" name="presentacion" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Unidad</label>
+                                    <input type="number" class="form-control" id="editUnidad" name="unidad" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Clave</label>
+                                    <input type="text" class="form-control" id="editClave" name="clave" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Cantidad</label>
+                                    <input type="number" class="form-control" id="editCantidad" name="cantidad" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">ID Laboratorio</label>
+                                    <input type="number" class="form-control" id="editIdLaboratorio" name="idLaboratorio">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            function cargarDatosEdicion(idMaterial, nombre, tipo, presentacion, unidad, clave, cantidad, idLaboratorio) {
+                document.getElementById('editIdMaterial').value = idMaterial;
+                document.getElementById('editNombre').value = nombre;
+                document.getElementById('editTipo').value = tipo;
+                document.getElementById('editPresentacion').value = presentacion;
+                document.getElementById('editUnidad').value = unidad;
+                document.getElementById('editClave').value = clave;
+                document.getElementById('editCantidad').value = cantidad;
+                document.getElementById('editIdLaboratorio').value = idLaboratorio;
+            }
+        </script>
     </body>
 </html>

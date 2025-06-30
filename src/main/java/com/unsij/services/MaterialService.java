@@ -10,4 +10,12 @@ public class MaterialService {
     public List<Material> obtenerTodosMateriales() {
         return dao.listarTodos();
     }
+    
+    public boolean crearMaterial(Material material) {
+        return dao.insertar(material);
+    }
+    
+    public boolean actualizarMaterial(Material material) {
+        return dao.actualizar(material);
+    }
 }
