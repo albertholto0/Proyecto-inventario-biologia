@@ -7,7 +7,7 @@ import java.util.List;
 public class MaterialService {
     private final MaterialDAO dao = new MaterialDAO();
     
-    public List<Material> obtenerMaterialesPorTipo(String tipo) {
-        return dao.listarPorTipo(tipo);
+    public List<Material> obtenerTodosMateriales() {
+        return dao.listarTodos();
     }
 }

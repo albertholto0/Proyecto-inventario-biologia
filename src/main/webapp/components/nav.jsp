@@ -15,7 +15,7 @@
                     <li class="nav-item"><a class="nav-link text-white fw-semibold"
                             href="${pageContext.request.contextPath}/pages/equipos.jsp">Equipos</a></li>
                     <li class="nav-item"><a class="nav-link text-white fw-semibold"
-                            href="${pageContext.request.contextPath}/pages/materiales/materiales.jsp">Materiales</a></li>
+                            href="${pageContext.request.contextPath}/pages/materiales.jsp">Materiales</a></li>
                     <li class="nav-item"><a class="nav-link text-white fw-semibold"
                             href="${pageContext.request.contextPath}/pages/prestamos.jsp">Préstamos</a></li>
                     <li class="nav-item dropdown">
