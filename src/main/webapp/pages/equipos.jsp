@@ -78,10 +78,6 @@
             <!-- Botones de acción -->
             <div class="mb-3 d-flex justify-content-between">
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#equipoModal">Registrar Equipo</button>
-                <div>
-                    <button class="btn btn-outline-secondary me-2">Exportar PDF</button>
-                    <button class="btn btn-outline-secondary">Exportar Excel</button>
-                </div>
             </div>
 
             <!-- Listado de equipos -->
