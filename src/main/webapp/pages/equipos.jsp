@@ -285,167 +285,156 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
+
                                                         function mostrarDetalleEquipo(idEquipo) {
 
-                                                            const equipos = [
+                                                        const equipos = [
             <c:forEach items="${equipos}" var="equipo" varStatus="loop">
-                                                            {
-                                                            idEquipo: ${equipo.idEquipo},
-                                                                    nombreEquipo: "${equipo.nombreEquipo}",
-                                                                    nombreGrupo: "${equipo.nombreGrupo}",
-                                                                    nombreCategoria: "${equipo.nombreCategoria}",
-                                                                    nombreSubcategoria: "${equipo.nombreSubcategoria}",
-                                                                    nombreTipo: "${equipo.nombreTipo}",
-                                                                    marca: "${equipo.marca}",
-                                                                    modelo: "${equipo.modelo}",
-                                                                    serie: "${equipo.serie}",
-                                                                    color: "${equipo.color}",
-                                                                    precio: "${equipo.precio}",
-                                                                    nombreLaboratorio: "${equipo.nombreLaboratorio}",
-                                                                    nombreEstadoFisico: "${equipo.nombreEstadoFisico}"
-                                                            }${!loop.last ? ',' : ''}
-            </c:forEach>
-                                                            ];
-
-                                                            const equipo = equipos.find(e => e.idEquipo === idEquipo);
-
-                                                            if (equipo) {
-                                                                document.getElementById('detalleNombre').textContent = equipo.nombreEquipo;
-                                                                document.getElementById('detalleGrupo').textContent = equipo.nombreGrupo;
-                                                                document.getElementById('detalleCategoria').textContent = equipo.nombreCategoria;
-                                                                document.getElementById('detalleSubcategoria').textContent = equipo.nombreSubcategoria;
-                                                                document.getElementById('detalleTipo').textContent = equipo.nombreTipo;
-                                                                document.getElementById('detalleMarca').textContent = equipo.marca;
-                                                                document.getElementById('detalleModelo').textContent = equipo.modelo;
-                                                                document.getElementById('detalleSerie').textContent = equipo.serie;
-                                                                document.getElementById('detalleColor').textContent = equipo.color;
-                                                                document.getElementById('detallePrecio').textContent = equipo.precio ? '$' + equipo.precio : 'No especificado';
-                                                                document.getElementById('detalleLaboratorio').textContent = equipo.nombreLaboratorio;
-                                                                document.getElementById('detalleEstadoFisico').textContent = equipo.nombreEstadoFisico;
-
-                                                                const modal = new bootstrap.Modal(document.getElementById('detalleModal'));
-                                                                modal.show();
-                                                                }
-                                                            }
-
-                                                            document.getElementById('filtrosForm').addEventListener('submit', function (e) {
-                                                                e.preventDefault();
-                                                                filtrarEquipos();
-                                                            });
-
-                                                            function filtrarEquipos() {
-                                                                const grupo = document.getElementById('grupo').value.toLowerCase();
-                                                                const categoria = document.getElementById('categoria').value.toLowerCase();
-                                                                const laboratorio = document.getElementById('laboratorio').value.toLowerCase();
-                                                                const estadoFisico = document.getElementById('estadoFisico').value.toLowerCase();
-
-                                                                const filas = document.querySelectorAll('#tablaEquipos tbody tr');
-                                                                let resultadosEncontrados = false;
-
-                                                                filas.forEach(fila => {
-                                                                    if (fila.cells.length === 1)
-                                                                        return; 
-
-                                                                    const grupoFila = fila.cells[1].textContent.toLowerCase();
-                                                                    const categoriaFila = fila.cells[2].textContent.toLowerCase();
-                                                                    const laboratorioFila = fila.cells[3].textContent.toLowerCase();
-                                                                    const estadoFisicoFila = fila.cells[4].textContent.toLowerCase();
-
-                                                                    const coincideGrupo = !grupo || grupoFila.includes(grupo);
-                                                                    const coincideCategoria = !categoria || categoriaFila.includes(categoria);
-                                                                    const coincideLaboratorio = !laboratorio || laboratorioFila.includes(laboratorio);
-                                                                    const coincideEstadoFisico = !estadoFisico || estadoFisicoFila.includes(estadoFisico);
-
-                                                                    if (coincideGrupo && coincideCategoria && coincideLaboratorio && coincideEstadoFisico) {
-                                                                        fila.style.display = '';
-                                                                        resultadosEncontrados = true;
-                                                                    } else {
-                                                                        fila.style.display = 'none';
-                                                                    }
-                                                                });
-
-
-                                                                const mensajeNoResultados = document.querySelector('#tablaEquipos tbody tr td[colspan="6"]');
-                                                                if (mensajeNoResultados) {
-                                                                    mensajeNoResultados.parentElement.style.display = resultadosEncontrados ? 'none' : '';
-                                                                } else if (!resultadosEncontrados && filas.length > 0) {
-                                                                    const tbody = document.querySelector('#tablaEquipos tbody');
-                                                                    const noResultsRow = document.createElement('tr');
-                                                                    noResultsRow.innerHTML = '<td colspan="6" class="text-center">No se encontraron equipos</td>';
-                                                                    tbody.appendChild(noResultsRow);
-                                                                } else if (resultadosEncontrados && filas.length > 0 && filas[filas.length - 1].cells.length === 1) {
-                                                                    const tbody = document.querySelector('#tablaEquipos tbody');
-                                                                    tbody.removeChild(filas[filas.length - 1]);
-                                                                }
-                                                            }
-
-                                                            function limpiarFiltros() {
-                                                                document.getElementById('grupo').value = '';
-                                                                document.getElementById('categoria').value = '';
-                                                                document.getElementById('laboratorio').value = '';
-                                                                document.getElementById('estadoFisico').value = '';
-                                                                filtrarEquipos();
-                                                            }
-
-                                                            function prepararEdicionEquipo(idEquipo) {
-                                                                const equipos = [
-            <c:forEach items="${equipos}" var="equipo" varStatus="loop">
-                                                                {
-                                                                idEquipo: ${equipo.idEquipo},
-                                                                        nombreEquipo: "${equipo.nombreEquipo}",
-                                                                idGrupo: ${equipo.idGrupo},
-                                                                        nombreGrupo: "${equipo.nombreGrupo}",
-                                                                idCategoria: ${equipo.idCategoria},
-                                                                        nombreCategoria: "${equipo.nombreCategoria}",
-                                                                idSubcategoria: ${equipo.idSubcategoria != null ? equipo.idSubcategoria : 'null'},
-                                                                        nombreSubcategoria: "${equipo.nombreSubcategoria}",
-                                                                idTipo: ${equipo.idTipo},
-                                                                        nombreTipo: "${equipo.nombreTipo}",
+                                                        {
+                                                        idEquipo: ${equipo.idEquipo},
+                                                                nombreEquipo: "${equipo.nombreEquipo}",
+                                                                nombreGrupo: "${equipo.nombreGrupo}",
+                                                                nombreCategoria: "${equipo.nombreCategoria}",
+                                                                nombreSubcategoria: "${equipo.nombreSubcategoria}",
+                                                                nombreTipo: "${equipo.nombreTipo}",
                                                                 marca: "${equipo.marca}",
-                                                                        modelo: "${equipo.modelo}",
+                                                                modelo: "${equipo.modelo}",
                                                                 serie: "${equipo.serie}",
-                                                                        color: "${equipo.color}",
-                                                                precio: ${equipo.precio != null ? equipo.precio : 'null'},
-                                                                        idEstadoFisico: ${equipo.idEstadoFisico},
-                                                                nombreEstadoFisico: "${equipo.nombreEstadoFisico}",
-                                                                        idLaboratorio: ${equipo.idLaboratorio},
-                                                                nombreLaboratorio: "${equipo.nombreLaboratorio}"
-                                                            }${!loop.last ? ',' : ''}
+                                                                color: "${equipo.color}",
+                                                                precio: "${equipo.precio}",
+                                                                nombreLaboratorio: "${equipo.nombreLaboratorio}",
+                                                                nombreEstadoFisico: "${equipo.nombreEstadoFisico}"
+                                                        }${!loop.last ? ',' : ''}
             </c:forEach>
-                                                            ];
+                                                        ];
+                                                        const equipo = equipos.find(e => e.idEquipo === idEquipo);
+                                                        if (equipo) {
+                                                        document.getElementById('detalleNombre').textContent = equipo.nombreEquipo;
+                                                        document.getElementById('detalleGrupo').textContent = equipo.nombreGrupo;
+                                                        document.getElementById('detalleCategoria').textContent = equipo.nombreCategoria;
+                                                        document.getElementById('detalleSubcategoria').textContent = equipo.nombreSubcategoria;
+                                                        document.getElementById('detalleTipo').textContent = equipo.nombreTipo;
+                                                        document.getElementById('detalleMarca').textContent = equipo.marca;
+                                                        document.getElementById('detalleModelo').textContent = equipo.modelo;
+                                                        document.getElementById('detalleSerie').textContent = equipo.serie;
+                                                        document.getElementById('detalleColor').textContent = equipo.color;
+                                                        document.getElementById('detallePrecio').textContent = equipo.precio ? '$' + equipo.precio : 'No especificado';
+                                                        document.getElementById('detalleLaboratorio').textContent = equipo.nombreLaboratorio;
+                                                        document.getElementById('detalleEstadoFisico').textContent = equipo.nombreEstadoFisico;
+                                                        const modal = new bootstrap.Modal(document.getElementById('detalleModal'));
+                                                        modal.show();
+                                                        }
+                                                        }
 
-                                                            const equipo = equipos.find(e => e.idEquipo === idEquipo);
+                                                        document.getElementById('filtrosForm').addEventListener('submit', function (e) {
+                                                        e.preventDefault();
+                                                        filtrarEquipos();
+                                                        });
+                                                        function filtrarEquipos() {
+                                                        const grupo = document.getElementById('grupo').value.toLowerCase();
+                                                        const categoria = document.getElementById('categoria').value.toLowerCase();
+                                                        const laboratorio = document.getElementById('laboratorio').value.toLowerCase();
+                                                        const estadoFisico = document.getElementById('estadoFisico').value.toLowerCase();
+                                                        const filas = document.querySelectorAll('#tablaEquipos tbody tr');
+                                                        let resultadosEncontrados = false;
+                                                        filas.forEach(fila => {
+                                                        if (fila.cells.length === 1)
+                                                                return;
+                                                        const grupoFila = fila.cells[1].textContent.toLowerCase();
+                                                        const categoriaFila = fila.cells[2].textContent.toLowerCase();
+                                                        const laboratorioFila = fila.cells[3].textContent.toLowerCase();
+                                                        const estadoFisicoFila = fila.cells[4].textContent.toLowerCase();
+                                                        const coincideGrupo = !grupo || grupoFila.includes(grupo);
+                                                        const coincideCategoria = !categoria || categoriaFila.includes(categoria);
+                                                        const coincideLaboratorio = !laboratorio || laboratorioFila.includes(laboratorio);
+                                                        const coincideEstadoFisico = !estadoFisico || estadoFisicoFila.includes(estadoFisico);
+                                                        if (coincideGrupo && coincideCategoria && coincideLaboratorio && coincideEstadoFisico) {
+                                                        fila.style.display = '';
+                                                        resultadosEncontrados = true;
+                                                        } else {
+                                                        fila.style.display = 'none';
+                                                        }
+                                                        });
+                                                        const mensajeNoResultados = document.querySelector('#tablaEquipos tbody tr td[colspan="6"]');
+                                                        if (mensajeNoResultados) {
+                                                        mensajeNoResultados.parentElement.style.display = resultadosEncontrados ? 'none' : '';
+                                                        } else if (!resultadosEncontrados && filas.length > 0) {
+                                                        const tbody = document.querySelector('#tablaEquipos tbody');
+                                                        const noResultsRow = document.createElement('tr');
+                                                        noResultsRow.innerHTML = '<td colspan="6" class="text-center">No se encontraron equipos</td>';
+                                                        tbody.appendChild(noResultsRow);
+                                                        } else if (resultadosEncontrados && filas.length > 0 && filas[filas.length - 1].cells.length === 1) {
+                                                        const tbody = document.querySelector('#tablaEquipos tbody');
+                                                        tbody.removeChild(filas[filas.length - 1]);
+                                                        }
+                                                        }
 
-                                                            if (equipo) {
-                                                                document.getElementById('equipoModalLabel').textContent = 'Editar Equipo';
+                                                        function limpiarFiltros() {
+                                                        document.getElementById('grupo').value = '';
+                                                        document.getElementById('categoria').value = '';
+                                                        document.getElementById('laboratorio').value = '';
+                                                        document.getElementById('estadoFisico').value = '';
+                                                        filtrarEquipos();
+                                                        }
 
-                                                                document.getElementById('idEquipo').value = equipo.idEquipo;
-                                                                document.getElementById('nombreEquipo').value = equipo.nombreEquipo;
-                                                                document.getElementById('marca').value = equipo.marca;
-                                                                document.getElementById('modelo').value = equipo.modelo;
-                                                                document.getElementById('serie').value = equipo.serie;
-                                                                document.getElementById('color').value = equipo.color;
-                                                                document.getElementById('precio').value = equipo.precio !== null ? equipo.precio : '';
-
-                                                                document.getElementById('idGrupo').value = equipo.idGrupo;
-                                                                document.getElementById('idCategoria').value = equipo.idCategoria;
-                                                                if (equipo.idSubcategoria !== null) {
-                                                                    document.getElementById('idSubcategoria').value = equipo.idSubcategoria;
-                                                                }
-                                                                document.getElementById('idTipo').value = equipo.idTipo;
-                                                                document.getElementById('idEstadoFisico').value = equipo.idEstadoFisico;
-                                                                document.getElementById('idLaboratorio').value = equipo.idLaboratorio;
-
-                                                                const modal = new bootstrap.Modal(document.getElementById('equipoModal'));
-                                                                modal.show();
-                                                            }
+                                                        function prepararEdicionEquipo(idEquipo) {
+                                                        const equipos = [
+            <c:forEach items="${equipos}" var="equipo" varStatus="loop">
+                                                        {
+                                                        idEquipo: ${equipo.idEquipo},
+                                                                nombreEquipo: "${equipo.nombreEquipo}",
+                                                                idGrupo: ${equipo.idGrupo},
+                                                                nombreGrupo: "${equipo.nombreGrupo}",
+                                                                idCategoria: ${equipo.idCategoria},
+                                                                nombreCategoria: "${equipo.nombreCategoria}",
+                                                                idSubcategoria: ${equipo.idSubcategoria != null ? equipo.idSubcategoria : 'null'},
+                                                                nombreSubcategoria: "${equipo.nombreSubcategoria}",
+                                                                idTipo: ${equipo.idTipo},
+                                                                nombreTipo: "${equipo.nombreTipo}",
+                                                                marca: "${equipo.marca}",
+                                                                modelo: "${equipo.modelo}",
+                                                                serie: "${equipo.serie}",
+                                                                color: "${equipo.color}",
+                                                                precio: ${equipo.precio != null ? equipo.precio : 'null'},
+                                                                idEstadoFisico: ${equipo.idEstadoFisico},
+                                                                nombreEstadoFisico: "${equipo.nombreEstadoFisico}",
+                                                                idLaboratorio: ${equipo.idLaboratorio},
+                                                                nombreLaboratorio: "${equipo.nombreLaboratorio}"
+                                                        }${!loop.last ? ',' : ''}
+            </c:forEach>
+                                                        ];
+                                                        const equipo = equipos.find(e => e.idEquipo === idEquipo);
+                                                        if (equipo) {
+                                                        document.getElementById('equipoModalLabel').textContent = 'Editar Equipo';
+                                                        document.getElementById('idEquipo').value = equipo.idEquipo;
+                                                        document.getElementById('nombreEquipo').value = equipo.nombreEquipo;
+                                                        document.getElementById('marca').value = equipo.marca;
+                                                        document.getElementById('modelo').value = equipo.modelo;
+                                                        document.getElementById('serie').value = equipo.serie;
+                                                        document.getElementById('color').value = equipo.color;
+                                                        document.getElementById('precio').value = equipo.precio !== null ? equipo.precio : '';
+                                                        document.getElementById('idGrupo').value = equipo.idGrupo;
+                                                        document.getElementById('idCategoria').value = equipo.idCategoria;
+                                                        if (equipo.idSubcategoria !== null) {
+                                                        document.getElementById('idSubcategoria').value = equipo.idSubcategoria;
+                                                        }
+                                                        document.getElementById('idTipo').value = equipo.idTipo;
+                                                        document.getElementById('idEstadoFisico').value = equipo.idEstadoFisico;
+                                                        document.getElementById('idLaboratorio').value = equipo.idLaboratorio;
+                                                        const modal = new bootstrap.Modal(document.getElementById('equipoModal'));
+                                                        modal.show();
+                                                        }
                                                         }
 
                                                         document.getElementById('equipoModal').addEventListener('hidden.bs.modal', function () {
-                                                            document.getElementById('equipoModalLabel').textContent = 'Registrar Nuevo Equipo';
-                                                            document.getElementById('idEquipo').value = '';
-                                                            this.querySelector('form').reset();
+                                                        document.getElementById('equipoModalLabel').textContent = 'Registrar Nuevo Equipo';
+                                                        document.getElementById('idEquipo').value = '';
+                                                        this.querySelector('form').reset();
                                                         });
+
+
+
+
         </script>
     </body>
 </html>

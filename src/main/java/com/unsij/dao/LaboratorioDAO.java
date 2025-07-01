@@ -49,4 +49,32 @@ public class LaboratorioDAO {
             return false;
         }
     }
+
+    public Laboratorio obtenerPorId(int id) {
+        String sql = "SELECT l.*, r.nombre_completo AS nombre_responsable "
+                + "FROM laboratorios l "
+                + "LEFT JOIN responsables r ON l.id_responsable = r.id_responsable "
+                + "WHERE l.id_laboratorio = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Laboratorio lab = new Laboratorio();
+                    lab.setIdLaboratorio(rs.getInt("id_laboratorio"));
+                    lab.setNombreLaboratorio(rs.getString("nombre_laboratorio"));
+                    lab.setDescripcion(rs.getString("descripcion"));
+                    lab.setIdResponsable(rs.getInt("id_responsable"));
+                    lab.setNombreResponsable(rs.getString("nombre_responsable"));
+                    return lab;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -1,4 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="prestamoService" class="com.unsij.services.PrestamoService" scope="page"/>
+<jsp:useBean id="alumnoService" class="com.unsij.services.AlumnoService" scope="page"/>
+<jsp:useBean id="laboratorioService" class="com.unsij.services.LaboratorioService" scope="page"/>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -26,7 +32,6 @@
             </p>
         </div>
 
-        <!-- Registro de nuevos préstamos -->
         <div class="card mb-4">
             <div class="card-header bg-success text-white">
                 Registro de Nuevo Préstamo
@@ -38,15 +43,13 @@
                             <label for="alumno" class="form-label">Alumno</label>
                             <select class="form-select" id="alumno" required>
                                 <option value="">Seleccione un alumno</option>
-                                <!-- Opciones dinámicas -->
-                            </select>
+                                </select>
                         </div>
                         <div class="col-md-4">
                             <label for="laboratorio" class="form-label">Laboratorio</label>
                             <select class="form-select" id="laboratorio" required>
                                 <option value="">Seleccione laboratorio</option>
-                                <!-- Opciones dinámicas -->
-                            </select>
+                                </select>
                         </div>
                         <div class="col-md-4">
                             <label for="fecha_prestamo" class="form-label">Fecha de Préstamo</label>
@@ -69,8 +72,7 @@
                                     <i class="bi bi-plus-circle"></i> Agregar Equipos
                                 </button>
                                 <div id="equipos-seleccionados" class="d-flex flex-wrap gap-2">
-                                    <!-- Aquí aparecerán los equipos seleccionados -->
-                                </div>
+                                    </div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -80,8 +82,7 @@
                                     <i class="bi bi-plus-circle"></i> Agregar Materiales
                                 </button>
                                 <div id="materiales-seleccionados" class="d-flex flex-wrap gap-2">
-                                    <!-- Aquí aparecerán los materiales seleccionados -->
-                                </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -91,7 +92,6 @@
             </div>
         </div>
 
-        <!-- Modal para selección de equipos -->
         <div class="modal fade" id="modalEquipos" tabindex="-1" aria-labelledby="modalEquiposLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -111,8 +111,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="lista-equipos">
-                                    <!-- Filas dinámicas de equipos -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
@@ -124,7 +123,6 @@
             </div>
         </div>
 
-        <!-- Modal para selección de materiales -->
         <div class="modal fade" id="modalMateriales" tabindex="-1" aria-labelledby="modalMaterialesLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -144,8 +142,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="lista-materiales">
-                                    <!-- Filas dinámicas de materiales -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
@@ -157,7 +154,6 @@
             </div>
         </div>
 
-        <!-- Listado de préstamos con filtros por estado -->
         <div class="card mb-4">
             <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
                 <span>Listado de Préstamos</span>
@@ -191,46 +187,51 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Ejemplo de fila -->
-                            <tr>
-                                <td>1</td>
-                                <td>Juan Pérez</td>
-                                <td>Lab 1</td>
-                                <td>01/06/2024 09:00</td>
-                                <td>05/06/2024 18:00</td>
-                                <td><span class="badge bg-success">Completado</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetallesPrestamo" data-id="1">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalDevolucion" data-id="1">
-                                        <i class="bi bi-arrow-return-left"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>María López</td>
-                                <td>Lab 2</td>
-                                <td>10/06/2024 10:00</td>
-                                <td>12/06/2024 18:00</td>
-                                <td><span class="badge bg-warning text-dark">Activo</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalDetallesPrestamo" data-id="2">
-                                        <i class="bi bi-eye"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#modalDevolucion" data-id="2">
-                                        <i class="bi bi-arrow-return-left"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            <c:forEach items="${prestamoService.obtenerPrestamos()}" var="prestamo">
+                                <tr>
+                                    <td>${prestamo.idPrestamo}</td>
+                                    <td>${alumnoService.obtenerAlumnoPorId(prestamo.idAlumno).nombreCompleto}</td>
+                                    <td>Lab ${laboratorioService.obtenerLaboratorioPorId(prestamo.idLaboratorio).nombreLaboratorio}</td>
+                                    <td>
+                                        <fmt:formatDate value="${prestamo.fechaPrestamo}" pattern="dd/MM/yyyy HH:mm" />
+                                    </td>
+                                    <td>
+                                        <fmt:formatDate value="${prestamo.fechaDevolucionPrevista}" pattern="dd/MM/yyyy HH:mm" />
+                                    </td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${prestamo.estado == 'activo'}">
+                                                <span class="badge bg-warning text-dark">Activo</span>
+                                            </c:when>
+                                            <c:when test="${prestamo.estado == 'completado'}">
+                                                <span class="badge bg-success">Completado</span>
+                                            </c:when>
+                                            <c:when test="${prestamo.estado == 'atrasado'}">
+                                                <span class="badge bg-danger">Atrasado</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="badge bg-secondary">${prestamo.estado}</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" 
+                                            data-bs-target="#modalDetallesPrestamo" data-id="${prestamo.idPrestamo}">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" 
+                                            data-bs-target="#modalDevolucion" data-id="${prestamo.idPrestamo}">
+                                            <i class="bi bi-arrow-return-left"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Modal para detalles del préstamo -->
         <div class="modal fade" id="modalDetallesPrestamo" tabindex="-1" aria-labelledby="modalDetallesPrestamoLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -239,8 +240,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="detalles-prestamo">
-                        <!-- Contenido dinámico -->
-                    </div>
+                        </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     </div>
@@ -248,7 +248,6 @@
             </div>
         </div>
 
-        <!-- Modal para registrar devolución -->
         <div class="modal fade" id="modalDevolucion" tabindex="-1" aria-labelledby="modalDevolucionLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -270,8 +269,7 @@
                             <div class="mb-3" id="items-faltantes-container" style="display: none;">
                                 <label class="form-label">Items faltantes o dañados</label>
                                 <div id="items-faltantes">
-                                    <!-- Lista dinámica de items -->
-                                </div>
+                                    </div>
                             </div>
                             <button type="submit" class="btn btn-success">Registrar Devolución</button>
                         </form>
@@ -281,7 +279,6 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/components/nav.js"></script>
     

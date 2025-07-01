@@ -7,8 +7,10 @@
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/utils/DBConnection.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/servlets/AuthServlet.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/controllers/MaterialController.java
+/home/albertholto/Proyecto-inventario/src/main/java/com/unsij/dao/PrestamoDAO.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/beans/Usuario.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/beans/Equipo.java
+/home/albertholto/Proyecto-inventario/src/main/java/com/unsij/beans/Prestamo.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/servlets/LogoutServlet.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/controllers/EquipoController.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/controllers/AlertaController.java
@@ -18,6 +20,7 @@
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/services/AlumnoService.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/dao/AlertaDAO.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/beans/Material.java
+/home/albertholto/Proyecto-inventario/src/main/java/com/unsij/controllers/PrestamoController.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/controllers/ResponsableController.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/dao/EquipoDAO.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/services/EquipoService.java
@@ -27,6 +30,7 @@
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/services/MaterialService.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/beans/Alumno.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/dao/UsuarioDAO.java
+/home/albertholto/Proyecto-inventario/src/main/java/com/unsij/services/PrestamoService.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/servlets/LoginRedirectServlet.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/dao/AlumnoDAO.java
 /home/albertholto/Proyecto-inventario/src/main/java/com/unsij/services/ResponsableService.java
