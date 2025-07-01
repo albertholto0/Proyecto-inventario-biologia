@@ -43,4 +43,24 @@ public class EquipoService {
     public List<Equipo> obtenerGruposCompletos() {
         return dao.obtenerGruposCompletos();
     }
+
+    public List<Equipo> obtenerCategoriasCompletas() {
+        return dao.obtenerCategoriasCompletas();
+    }
+
+    public List<Equipo> obtenerSubcategoriasCompletas() {
+        return dao.obtenerSubcategoriasCompletas();
+    }
+
+    public List<Equipo> obtenerTiposCompletos() {
+        return dao.obtenerTiposCompletos();
+    }
+
+    public List<Equipo> obtenerEstadosFisicosCompletos() {
+        return dao.obtenerEstadosFisicosCompletos();
+    }
+
+    public List<Equipo> obtenerLaboratoriosCompletos() {
+        return dao.obtenerLaboratoriosCompletos();
+    }
 }

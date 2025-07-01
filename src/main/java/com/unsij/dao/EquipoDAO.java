@@ -146,7 +146,6 @@ public class EquipoDAO {
         }
         return grupos;
     }
-    // En EquipoDAO.java agregar estos métodos:
 
     public boolean insertarEquipo(Equipo equipo) {
         String sql = "INSERT INTO equipos (nombre_equipo, id_grupo, id_categoria, id_subcategoria, id_tipo, "
@@ -235,5 +234,105 @@ public class EquipoDAO {
             e.printStackTrace();
         }
         return equipo;
+    }
+
+    public List<Equipo> obtenerCategoriasCompletas() {
+        List<Equipo> categorias = new ArrayList<>();
+        String sql = "SELECT id_categoria, nombre_categoria FROM categorias ORDER BY nombre_categoria";
+
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Equipo e = new Equipo();
+                e.setIdCategoria(rs.getInt("id_categoria"));
+                e.setNombreCategoria(rs.getString("nombre_categoria"));
+                categorias.add(e);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return categorias;
+    }
+
+    public List<Equipo> obtenerSubcategoriasCompletas() {
+        List<Equipo> subcategorias = new ArrayList<>();
+        String sql = "SELECT id_subcategoria, nombre_subcategoria FROM subcategorias ORDER BY nombre_subcategoria";
+
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Equipo e = new Equipo();
+                e.setIdSubcategoria(rs.getInt("id_subcategoria"));
+                e.setNombreSubcategoria(rs.getString("nombre_subcategoria"));
+                subcategorias.add(e);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return subcategorias;
+    }
+
+    public List<Equipo> obtenerTiposCompletos() {
+        List<Equipo> tipos = new ArrayList<>();
+        String sql = "SELECT id_tipo, nombre_tipo FROM tipos ORDER BY nombre_tipo";
+
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Equipo e = new Equipo();
+                e.setIdTipo(rs.getInt("id_tipo"));
+                e.setNombreTipo(rs.getString("nombre_tipo"));
+                tipos.add(e);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tipos;
+    }
+
+    public List<Equipo> obtenerEstadosFisicosCompletos() {
+        List<Equipo> estados = new ArrayList<>();
+        String sql = "SELECT id_estado_fisico, nombre_estado FROM estados_fisicos ORDER BY nombre_estado";
+
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Equipo e = new Equipo();
+                e.setIdEstadoFisico(rs.getInt("id_estado_fisico"));
+                e.setNombreEstadoFisico(rs.getString("nombre_estado"));
+                estados.add(e);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return estados;
+    }
+
+    public List<Equipo> obtenerLaboratoriosCompletos() {
+        List<Equipo> laboratorios = new ArrayList<>();
+        String sql = "SELECT id_laboratorio, nombre_laboratorio FROM laboratorios ORDER BY nombre_laboratorio";
+
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Equipo e = new Equipo();
+                e.setIdLaboratorio(rs.getInt("id_laboratorio"));
+                e.setNombreLaboratorio(rs.getString("nombre_laboratorio"));
+                laboratorios.add(e);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return laboratorios;
     }
 }

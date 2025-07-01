@@ -16,7 +16,8 @@ public class EquipoController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("EquipoController - doGet ejecutándose");
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
         try {
             List<Equipo> equipos = service.obtenerEquipos();
@@ -31,20 +32,19 @@ public class EquipoController extends HttpServlet {
         }
     }
 
-    // En EquipoController.java agregar este método:
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try {
             Equipo equipo = new Equipo();
 
-            // Si es una edición, establecer el ID
             String idStr = request.getParameter("idEquipo");
             if (idStr != null && !idStr.isEmpty()) {
                 equipo.setIdEquipo(Integer.parseInt(idStr));
             }
 
-            // Establecer los demás campos
             equipo.setNombreEquipo(request.getParameter("nombreEquipo"));
             equipo.setIdGrupo(Integer.parseInt(request.getParameter("idGrupo")));
             equipo.setIdCategoria(Integer.parseInt(request.getParameter("idCategoria")));
