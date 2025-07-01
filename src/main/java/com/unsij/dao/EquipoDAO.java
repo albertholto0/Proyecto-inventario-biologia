@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EquipoDAO {
+
     public List<Equipo> listar() {
         List<Equipo> lista = new ArrayList<>();
         String sql = "SELECT e.*, "
@@ -23,21 +24,21 @@ public class EquipoDAO {
                 + "LEFT JOIN tipos t ON e.id_tipo = t.id_tipo "
                 + "LEFT JOIN estados_fisicos ef ON e.id_estado_fisico = ef.id_estado_fisico "
                 + "LEFT JOIN laboratorios l ON e.id_laboratorio = l.id_laboratorio";
-        
+
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Equipo e = new Equipo();
                 e.setIdEquipo(rs.getInt("id_equipo"));
                 e.setNombreEquipo(rs.getString("nombre_equipo"));
                 e.setIdGrupo(rs.getInt("id_grupo"));
-                e.setNombreGrupo(rs.getString("nombre_grupo")); 
+                e.setNombreGrupo(rs.getString("nombre_grupo"));
                 e.setIdCategoria(rs.getInt("id_categoria"));
-                e.setNombreCategoria(rs.getString("nombre_categoria")); 
+                e.setNombreCategoria(rs.getString("nombre_categoria"));
                 e.setIdSubcategoria(rs.getObject("id_subcategoria") != null ? rs.getInt("id_subcategoria") : null);
-                e.setNombreSubcategoria(rs.getString("nombre_subcategoria")); 
+                e.setNombreSubcategoria(rs.getString("nombre_subcategoria"));
                 e.setIdTipo(rs.getInt("id_tipo"));
                 e.setNombreTipo(rs.getString("nombre_tipo"));
                 e.setMarca(rs.getString("marca"));
@@ -46,10 +47,10 @@ public class EquipoDAO {
                 e.setColor(rs.getString("color"));
                 e.setPrecio(rs.getObject("precio") != null ? rs.getFloat("precio") : null);
                 e.setIdEstadoFisico(rs.getInt("id_estado_fisico"));
-                e.setNombreEstadoFisico(rs.getString("nombre_estado")); 
+                e.setNombreEstadoFisico(rs.getString("nombre_estado"));
                 e.setIdLaboratorio(rs.getInt("id_laboratorio"));
-                e.setNombreLaboratorio(rs.getString("nombre_laboratorio")); 
-                
+                e.setNombreLaboratorio(rs.getString("nombre_laboratorio"));
+
                 lista.add(e);
             }
         } catch (Exception e) {
@@ -61,11 +62,11 @@ public class EquipoDAO {
     public List<String> obtenerNombresGrupos() {
         List<String> grupos = new ArrayList<>();
         String sql = "SELECT nombre_grupo FROM grupos ORDER BY nombre_grupo";
-        
+
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 grupos.add(rs.getString("nombre_grupo"));
             }
@@ -78,11 +79,11 @@ public class EquipoDAO {
     public List<String> obtenerNombresCategorias() {
         List<String> categorias = new ArrayList<>();
         String sql = "SELECT nombre_categoria FROM categorias ORDER BY nombre_categoria";
-        
+
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 categorias.add(rs.getString("nombre_categoria"));
             }
@@ -95,11 +96,11 @@ public class EquipoDAO {
     public List<String> obtenerNombresLaboratorios() {
         List<String> laboratorios = new ArrayList<>();
         String sql = "SELECT nombre_laboratorio FROM laboratorios ORDER BY nombre_laboratorio";
-        
+
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 laboratorios.add(rs.getString("nombre_laboratorio"));
             }
@@ -112,11 +113,11 @@ public class EquipoDAO {
     public List<String> obtenerNombresEstadosFisicos() {
         List<String> estados = new ArrayList<>();
         String sql = "SELECT nombre_estado FROM estados_fisicos ORDER BY nombre_estado";
-        
+
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 estados.add(rs.getString("nombre_estado"));
             }
@@ -125,15 +126,15 @@ public class EquipoDAO {
         }
         return estados;
     }
-    
+
     public List<Equipo> obtenerGruposCompletos() {
         List<Equipo> grupos = new ArrayList<>();
         String sql = "SELECT id_grupo, nombre_grupo FROM grupos ORDER BY nombre_grupo";
-        
+
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Equipo e = new Equipo();
                 e.setIdGrupo(rs.getInt("id_grupo"));
@@ -144,5 +145,95 @@ public class EquipoDAO {
             e.printStackTrace();
         }
         return grupos;
+    }
+    // En EquipoDAO.java agregar estos métodos:
+
+    public boolean insertarEquipo(Equipo equipo) {
+        String sql = "INSERT INTO equipos (nombre_equipo, id_grupo, id_categoria, id_subcategoria, id_tipo, "
+                + "marca, modelo, serie, color, precio, id_estado_fisico, id_laboratorio) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, equipo.getNombreEquipo());
+            ps.setInt(2, equipo.getIdGrupo());
+            ps.setInt(3, equipo.getIdCategoria());
+            ps.setObject(4, equipo.getIdSubcategoria());
+            ps.setInt(5, equipo.getIdTipo());
+            ps.setString(6, equipo.getMarca());
+            ps.setString(7, equipo.getModelo());
+            ps.setString(8, equipo.getSerie());
+            ps.setString(9, equipo.getColor());
+            ps.setObject(10, equipo.getPrecio());
+            ps.setInt(11, equipo.getIdEstadoFisico());
+            ps.setInt(12, equipo.getIdLaboratorio());
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean actualizarEquipo(Equipo equipo) {
+        String sql = "UPDATE equipos SET nombre_equipo=?, id_grupo=?, id_categoria=?, id_subcategoria=?, id_tipo=?, "
+                + "marca=?, modelo=?, serie=?, color=?, precio=?, id_estado_fisico=?, id_laboratorio=? "
+                + "WHERE id_equipo=?";
+
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, equipo.getNombreEquipo());
+            ps.setInt(2, equipo.getIdGrupo());
+            ps.setInt(3, equipo.getIdCategoria());
+            ps.setObject(4, equipo.getIdSubcategoria());
+            ps.setInt(5, equipo.getIdTipo());
+            ps.setString(6, equipo.getMarca());
+            ps.setString(7, equipo.getModelo());
+            ps.setString(8, equipo.getSerie());
+            ps.setString(9, equipo.getColor());
+            ps.setObject(10, equipo.getPrecio());
+            ps.setInt(11, equipo.getIdEstadoFisico());
+            ps.setInt(12, equipo.getIdLaboratorio());
+            ps.setInt(13, equipo.getIdEquipo());
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Equipo obtenerEquipoPorId(int id) {
+        String sql = "SELECT * FROM equipos WHERE id_equipo=?";
+        Equipo equipo = null;
+
+        try (Connection conn = DBConnection.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    equipo = new Equipo();
+                    equipo.setIdEquipo(rs.getInt("id_equipo"));
+                    equipo.setNombreEquipo(rs.getString("nombre_equipo"));
+                    equipo.setIdGrupo(rs.getInt("id_grupo"));
+                    equipo.setIdCategoria(rs.getInt("id_categoria"));
+                    equipo.setIdSubcategoria(rs.getObject("id_subcategoria") != null ? rs.getInt("id_subcategoria") : null);
+                    equipo.setIdTipo(rs.getInt("id_tipo"));
+                    equipo.setMarca(rs.getString("marca"));
+                    equipo.setModelo(rs.getString("modelo"));
+                    equipo.setSerie(rs.getString("serie"));
+                    equipo.setColor(rs.getString("color"));
+                    equipo.setPrecio(rs.getObject("precio") != null ? rs.getFloat("precio") : null);
+                    equipo.setIdEstadoFisico(rs.getInt("id_estado_fisico"));
+                    equipo.setIdLaboratorio(rs.getInt("id_laboratorio"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return equipo;
     }
 }

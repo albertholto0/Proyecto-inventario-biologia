@@ -125,7 +125,7 @@
                                                             onclick="mostrarDetalleEquipo(${equipo.idEquipo})">
                                                         <i class="bi bi-eye"></i> Detalle
                                                     </button>
-                                                    <button class="btn btn-warning btn-sm btn-action">
+                                                    <button class="btn btn-warning btn-sm btn-action" onclick="prepararEdicionEquipo(${equipo.idEquipo})">
                                                         <i class="bi bi-pencil"></i> Editar
                                                     </button>
                                                 </td>
@@ -189,13 +189,77 @@
 
         <div class="modal fade" id="equipoModal" tabindex="-1" aria-labelledby="equipoModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
-                <form class="modal-content">
+                <form class="modal-content" action="${pageContext.request.contextPath}/equipos" method="POST">
+                    <input type="hidden" id="idEquipo" name="idEquipo" value="">
                     <div class="modal-header bg-success text-white">
                         <h5 class="modal-title" id="equipoModalLabel">Registrar Nuevo Equipo</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body row g-3">
+                        <div class="col-md-6">
+                            <label for="nombreEquipo" class="form-label">Nombre del Equipo</label>
+                            <input type="text" class="form-control" id="nombreEquipo" name="nombreEquipo" required>
                         </div>
+                        <div class="col-md-6">
+                            <label for="marca" class="form-label">Marca</label>
+                            <input type="text" class="form-control" id="marca" name="marca">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="modelo" class="form-label">Modelo</label>
+                            <input type="text" class="form-control" id="modelo" name="modelo">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="serie" class="form-label">Número de Serie</label>
+                            <input type="text" class="form-control" id="serie" name="serie">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="color" class="form-label">Color</label>
+                            <input type="text" class="form-control" id="color" name="color">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="precio" class="form-label">Precio</label>
+                            <input type="number" step="0.01" class="form-control" id="precio" name="precio">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="idGrupo" class="form-label">Grupo</label>
+                            <select class="form-select" id="idGrupo" name="idGrupo" required>
+                                <option value="">Seleccione un grupo</option>
+                                <c:forEach items="${equipoService.obtenerGruposCompletos()}" var="grupo">
+                                    <option value="${grupo.idGrupo}">${grupo.nombreGrupo}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="idCategoria" class="form-label">Categoría</label>
+                            <select class="form-select" id="idCategoria" name="idCategoria" required>
+                                <option value="">Seleccione una categoría</option>
+                                </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="idSubcategoria" class="form-label">Subcategoría</label>
+                            <select class="form-select" id="idSubcategoria" name="idSubcategoria">
+                                <option value="">Seleccione una subcategoría</option>
+                                </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="idTipo" class="form-label">Tipo</label>
+                            <select class="form-select" id="idTipo" name="idTipo" required>
+                                <option value="">Seleccione un tipo</option>
+                                </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="idEstadoFisico" class="form-label">Estado Físico</label>
+                            <select class="form-select" id="idEstadoFisico" name="idEstadoFisico" required>
+                                <option value="">Seleccione un estado</option>
+                                </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="idLaboratorio" class="form-label">Laboratorio</label>
+                            <select class="form-select" id="idLaboratorio" name="idLaboratorio" required>
+                                <option value="">Seleccione un laboratorio</option>
+                                </select>
+                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-success">Guardar</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -313,6 +377,72 @@
                 document.getElementById('estadoFisico').value = '';
                 filtrarEquipos();
             }
+
+            // Función para preparar el modal para edición
+            function prepararEdicionEquipo(idEquipo) {
+                // En una aplicación real, aquí harías una llamada AJAX para obtener los datos del equipo
+                // Por ahora, simulamos los datos con los equipos disponibles en la página
+
+                const equipos = [
+                    <c:forEach items="${equipos}" var="equipo" varStatus="loop">
+                    {
+                        idEquipo: ${equipo.idEquipo},
+                        nombreEquipo: "${equipo.nombreEquipo}",
+                        idGrupo: ${equipo.idGrupo},
+                        idCategoria: ${equipo.idCategoria},
+                        idSubcategoria: ${equipo.idSubcategoria != null ? equipo.idSubcategoria : 'null'},
+                        idTipo: ${equipo.idTipo},
+                        marca: "${equipo.marca}",
+                        modelo: "${equipo.modelo}",
+                        serie: "${equipo.serie}",
+                        color: "${equipo.color}",
+                        precio: ${equipo.precio != null ? equipo.precio : 'null'},
+                        idEstadoFisico: ${equipo.idEstadoFisico},
+                        idLaboratorio: ${equipo.idLaboratorio}
+                    }${!loop.last ? ',' : ''}
+                    </c:forEach>
+                ];
+
+                const equipo = equipos.find(e => e.idEquipo === idEquipo);
+
+                if (equipo) {
+                    // Cambiar el título del modal
+                    document.getElementById('equipoModalLabel').textContent = 'Editar Equipo';
+
+                    // Llenar los campos del formulario
+                    document.getElementById('idEquipo').value = equipo.idEquipo;
+                    document.getElementById('nombreEquipo').value = equipo.nombreEquipo;
+                    document.getElementById('marca').value = equipo.marca;
+                    document.getElementById('modelo').value = equipo.modelo;
+                    document.getElementById('serie').value = equipo.serie;
+                    document.getElementById('color').value = equipo.color;
+                    document.getElementById('precio').value = equipo.precio !== null ? equipo.precio : '';
+
+                    // Seleccionar las opciones en los selects
+                    document.getElementById('idGrupo').value = equipo.idGrupo;
+                    // Aquí deberías cargar las categorías basadas en el grupo seleccionado
+                    // y luego seleccionar la categoría adecuada, etc.
+                    // Esto requeriría llamadas AJAX o tener todos los datos precargados
+
+                    // Por simplicidad, asumimos que los selects ya tienen las opciones correctas
+                    document.getElementById('idCategoria').value = equipo.idCategoria;
+                    document.getElementById('idSubcategoria').value = equipo.idSubcategoria !== null ? equipo.idSubcategoria : '';
+                    document.getElementById('idTipo').value = equipo.idTipo;
+                    document.getElementById('idEstadoFisico').value = equipo.idEstadoFisico;
+                    document.getElementById('idLaboratorio').value = equipo.idLaboratorio;
+
+                    // Mostrar el modal
+                    const modal = new bootstrap.Modal(document.getElementById('equipoModal'));
+                    modal.show();
+                }
+            }
+
+            // Limpiar el modal cuando se cierre para nuevos registros
+            document.getElementById('equipoModal').addEventListener('hidden.bs.modal', function() {
+                document.getElementById('equipoModalLabel').textContent = 'Registrar Nuevo Equipo';
+                document.getElementById('idEquipo').value = '';
+                this.querySelector('form').reset();
+            });
         </script>
     </body>
 </html>
