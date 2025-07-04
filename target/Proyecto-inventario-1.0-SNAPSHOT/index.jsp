@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    // Verificación simple de autenticación (puedes mejorarla)
     if (session.getAttribute("authenticated") == null) {
         response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
         return;
@@ -19,10 +18,8 @@
 </head>
 <body class="bg-light">
 
-    <!-- Header dinámico -->
     <jsp:include page="/components/nav.jsp" />
 
-    <!-- Dashboard Summary -->
     <div class="container mb-4">
         <div class="row g-3">
             <div class="col-md-3">
@@ -64,7 +61,6 @@
         </div>
     </div>
 
-    <!-- Main Content: Chart and Lists -->
     <div class="container mb-4">
         <div class="row g-4">
             <div class="col-lg-6">
@@ -102,10 +98,8 @@
         </div>
     </div>
 
-    <!-- Footer dinámico -->
     <jsp:include page="/components/footer.jsp" />
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const ctx = document.getElementById('prestamosChart').getContext('2d');

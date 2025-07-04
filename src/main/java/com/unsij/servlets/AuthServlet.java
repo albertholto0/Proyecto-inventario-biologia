@@ -19,10 +19,10 @@ public class AuthServlet extends HttpServlet {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         Usuario user = usuarioDAO.validarUsuario(usuario, contrasena);
         
-        if (user != null) { // Si se encontró un usuario con esas credenciales
+        if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("authenticated", true);
-            session.setAttribute("username", user.getUsuario()); // Almacena el nombre de usuario de la DB
+            session.setAttribute("username", user.getUsuario()); 
             
             response.sendRedirect(request.getContextPath() + "/index.jsp");
         } else {

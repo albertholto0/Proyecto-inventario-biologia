@@ -19,7 +19,6 @@ public class AlumnoController extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        // En el doGet del AlumnoController
         if ("obtener".equals(action)) {
             int id = Integer.parseInt(request.getParameter("id"));
             Alumno alumno = service.obtenerAlumnoPorId(id);
@@ -28,7 +27,6 @@ public class AlumnoController extends HttpServlet {
             return;
         }
 
-        // Solo redirigimos a la página JSP, el bean se encargará de obtener los datos
         request.getRequestDispatcher("/pages/alumnos.jsp").forward(request, response);
     }
 

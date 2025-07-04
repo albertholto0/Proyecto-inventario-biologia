@@ -264,7 +264,6 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
-            // Mostrar alertas bonitas
             document.addEventListener('DOMContentLoaded', function() {
                 <c:if test="${not empty sessionScope.mensaje}">
                     Swal.fire({
@@ -302,7 +301,6 @@
                 document.getElementById('editClave').value = clave;
                 document.getElementById('editCantidad').value = cantidad;
                 
-                // Seleccionar el laboratorio correcto en el select
                 const selectLab = document.getElementById('editIdLaboratorio');
                 if (idLaboratorio) {
                     selectLab.value = idLaboratorio;

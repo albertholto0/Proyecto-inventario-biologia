@@ -23,7 +23,6 @@ public class Equipo implements Serializable {
     private int idLaboratorio;
     private String nombreLaboratorio;
     
-    // Getters y Setters para todos los campos (incluyendo los nuevos)
     public int getIdEquipo() {
         return idEquipo;
     }

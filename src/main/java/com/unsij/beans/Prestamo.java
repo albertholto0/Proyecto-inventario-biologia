@@ -12,7 +12,6 @@ public class Prestamo implements Serializable {
     private int idLaboratorio;
     private String estado;
     
-    // Getters y Setters
     public int getIdPrestamo() {
         return idPrestamo;
     }

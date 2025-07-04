@@ -30,7 +30,6 @@
             </button>
         </div>
 
-        <!-- Lista de alertas -->
         <div class="table-responsive">
             <table class="table align-middle" id="tabla-alertas">
                 <thead>

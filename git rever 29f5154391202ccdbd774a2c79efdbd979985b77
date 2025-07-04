@@ -1,0 +1,131 @@
+[33mcommit 29f5154391202ccdbd774a2c79efdbd979985b77[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 23:33:10 2025 -0600
+
+    Ya se muestran los prestamos
+
+[33mcommit 853ef680495ebe4c1c0b874234e2f6f7b32373ed[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 21:41:04 2025 -0600
+
+    Equipos ya funciona a la perfeccion
+
+[33mcommit 3206388e75ce12c566b18472927a1385644280f5[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 21:31:04 2025 -0600
+
+    Ya va quedando más o menos el modulo de equipos
+
+[33mcommit 4cfc73301ad316945a332eaa75cc3cfb93f7e97d[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 17:06:03 2025 -0600
+
+    .
+
+[33mcommit 946b48efad9adc9896a5e3fcc7cb88d3eb57ccf2[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 16:45:01 2025 -0600
+
+    El modulo de equipos se mira bien
+
+[33mcommit b86771df99f545452a69367e29bf963bbc655fec[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 16:28:05 2025 -0600
+
+    Se borraron los botones de exportacion que había en Equipos
+
+[33mcommit 5c198de103adb3f5f02ca12ed7e88edba3c7a282[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 16:26:24 2025 -0600
+
+    En el modal de añadir, ya aparecen los nombres de los laboratorios y no solamente el ID. Esto para mejor experiencia del usuario
+
+[33mcommit cf95d95545d77b3ebac071ea6208962008d602ef[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 16:18:05 2025 -0600
+
+    Ya tiene alertas visualmente más atractivas
+
+[33mcommit dffd61a1541843452aae3184fdc3a66ab47867ec[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 16:11:34 2025 -0600
+
+    Ya se pueden agregar y editar materiales
+
+[33mcommit 99411b62e1dc23be5387bf21cd3ce25403b037f3[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 15:33:01 2025 -0600
+
+    .
+
+[33mcommit 4c173c3a2c746ea78d2c0116b3442031e7316961[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 15:27:16 2025 -0600
+
+    Materiales muestra a todos los materiales en una sola tabla por razones de simplificacion. La manera anterior causaba muchos problemas
+
+[33mcommit 6eaa3177fed6a1fe531d17208c7f695551c867a1[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 03:13:15 2025 -0600
+
+    Se pueden agregar responsables de laboratorio. Además, se puede cambiar al responsable de algún laboratorio
+
+[33mcommit fa82fed9bc14b6ca95d4f2a81cd217c69466f5aa[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 02:40:35 2025 -0600
+
+    Usuario ya agrega y elimina
+
+[33mcommit 87f2efa7effc7562becfd66d496e15989722a721[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 02:06:17 2025 -0600
+
+    El js de alumnos se movió a un archivo independiente
+
+[33mcommit 94fd9db96b320ec1b73df6b6e3d6087f400e43e4[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 02:01:23 2025 -0600
+
+    Alumnos ya puede crear y editar usuario
+
+[33mcommit a952c925fb6e5ee897233a73fa1fba111cb2a229[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Mon Jun 30 00:50:03 2025 -0600
+
+    Usuarios ya muestra datos
+
+[33mcommit aabea6abc4eb74b269851ba03aeacc7fc5db600b[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Sun Jun 29 23:28:50 2025 -0600
+
+    Ya se muestran los materiales y sus distintos tipos
+
+[33mcommit 67042386f25573644960577eefbe6f905cd6191f[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Sun Jun 29 22:18:43 2025 -0600
+
+    El laboratorio ya muestra datos
+
+[33mcommit 536e593f64f12c487d724d0cbc4733ec4637e59f[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Sun Jun 29 21:56:54 2025 -0600
+
+    Alumnos ya muestra datos en su tabla
+
+[33mcommit c20d129833988143f3e0f7213b7dbdd41bc9b577[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Sun Jun 29 21:46:34 2025 -0600
+
+    Ya se muestran los equipos en la tabla equipos
+
+[33mcommit 3d565b82ed939fe82f844ebbb47cdaf3e4f14b1f[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Sun Jun 29 19:07:42 2025 -0600
+
+    Ya hay conexion con la base de datos
+
+[33mcommit daa07382e3a2cee4b0fce4c7834c18d8c9a4a61c[m
+Author: albertholto0 <albertmendoza019@gmail.com>
+Date:   Sat Jun 28 23:43:53 2025 -0600
+
+    Primer commit

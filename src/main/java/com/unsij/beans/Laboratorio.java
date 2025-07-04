@@ -9,7 +9,6 @@ public class Laboratorio implements Serializable {
     private int idResponsable;
     private String nombreResponsable; 
 
-    // Getters y Setters
     public int getIdLaboratorio() {
         return idLaboratorio;
     }

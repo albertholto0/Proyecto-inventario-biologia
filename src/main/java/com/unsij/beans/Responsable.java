@@ -8,7 +8,6 @@ public class Responsable implements Serializable {
     private String correo;
     private String numeroTelefonico;
 
-    // Getters y Setters
     public int getIdResponsable() {
         return idResponsable;
     }

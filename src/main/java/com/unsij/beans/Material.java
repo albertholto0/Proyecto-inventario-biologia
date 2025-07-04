@@ -13,7 +13,6 @@ public class Material implements Serializable {
     private int idLaboratorio;
     private String nombreLaboratorio; 
 
-    // Getters y Setters
     public int getIdMaterial() {
         return idMaterial;
     }
